@@ -1,12 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DAM2_E2_T6_MPGM</string>
-    <string name="user">Erabiltzailea</string>
-    <string name="password">Pasahitza</string>
-    <string name="pasahitzaAhaztuta">Pasahitza ahaztuta?</string>
-    <string name="login">Login Egin</string>
+    <string name="user">User</string>
+    <string name="password">Password</string>
+    <string name="login">Log In</string>
     <string-array name="languages">
-        <item>Euskera</item>
-        <item>Ingelesa</item>
-        <item>Gaztelania</item>
+        <item>Basque</item>
+        <item>English</item>
+        <item>Spanish</item>
     </string-array>
+
+    <string name="forgotPassword" translatable="false">Forgot password?</string>
+    <string name="clickHere" translatable="false">Click Here!</string>
+    <string name="restartAplication" translatable="false">Restart the aplication to apply language changes!</string>
 </resources>
