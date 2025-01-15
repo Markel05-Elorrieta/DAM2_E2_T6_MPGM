@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_irten"
+        android:title="Opciones"
+        android:icon="@android:drawable/ic_menu_more"
+        app:showAsAction="ifRoom">
+
+        <!-- Submenú con dos botones -->
+        <menu>
+            <item
+                android:id="@+id/menu_opcion1"
+                android:title="Add"
+                android:icon="@android:drawable/ic_menu_add" />
+
+            <item
+                android:id="@+id/menu_opcion2"
+                android:title="Exit"
+                android:icon="@android:drawable/ic_menu_edit" />
+        </menu>
+    </item>
+</menu>
