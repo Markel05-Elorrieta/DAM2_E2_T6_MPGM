@@ -29,7 +29,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Locale;
 
-import model.Users;
+import callbacks.LoginAndroidCallback;
+import model.dao.UsersDao;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -69,20 +70,24 @@ public class MainActivity extends AppCompatActivity {
 
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-                out.println("testUser");
+                out.println("newPwd");
                 Log.d("aaaaa", "Enviao");
 
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                Users response = (Users) ois.readObject();
+                Object response = (Object) ois.readObject();
                 Log.d("aaaaa", response.toString());
 
-            /*
+                if (response.equals("true")) {
+                    Log.d("aaaaa", "entra");
+                }
+
+/*
             InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-            BufferedReader br = new Buf feredReader(isr);
+            BufferedReader br = new BufferedReader(isr);
             String x = br.readLine();
             Log.d("aaaaa", x);
             Log.d("aaaaa", "Communication finished!");
-            */
+*/
             } catch (Exception e) {
                 Log.d("aaaaa", "Error: " + e.getMessage());
                 e.printStackTrace();
@@ -115,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         lbl_clickHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Metodos m = new Metodos();
+                m.pedirCorreo(MainActivity.this);
                 Toast.makeText(MainActivity.this, "pide correus", Toast.LENGTH_SHORT).show();
             }
         });
@@ -122,7 +129,22 @@ public class MainActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // do login, depende de el user hace una cosa o otra
+                UsersDao usersDao = new UsersDao("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {
+                    @Override
+                    public void onLoginAndroid(boolean isLogin) {
+                        Log.d("loginProba", isLogin + "");
+                        if (isLogin) {
+                            if (GlobalVariables.logedUser.getTipos().getId() == 3) {
+                                Intent intent = new Intent(MainActivity.this, IrakasleActivity.class);
+                                logout.launch(intent);
+                            } else {
+                                Intent intent = new Intent(MainActivity.this, IkasleActivity.class);
+                                logout.launch(intent);
+                            }
+                        }
+                    }
+                });
+                usersDao.start();
             }
         });
 
