@@ -1,4 +1,4 @@
-package com.example.dam2_e2_t6_mpgm.LocalStorage;
+package com.example.dam2_e2_t6_mpgm.localStorageDB;
 
 import android.content.ContentValues;
 import android.content.Context;

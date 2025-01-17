@@ -22,16 +22,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 
-import com.example.dam2_e2_t6_mpgm.LocalStorage.LocalDBDao;
-import com.example.dam2_e2_t6_mpgm.model.Users;
+import com.example.dam2_e2_t6_mpgm.localStorageDB.LocalDBDao;
+
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Locale;
 
+import model.Users;
+
 public class MainActivity extends AppCompatActivity {
 
     private LocalDBDao localDBDao = new LocalDBDao(this);
+    private String lan = "eu";
 
     private TextView lbl_user;
     private TextView lbl_password;
@@ -61,33 +64,30 @@ public class MainActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
-                // Connect to the server via socket
-                Socket socket = new Socket("10.5.104.34", 23456);
+                Socket socket = new Socket("10.5.104.43", 23456);
+                System.out.println("Connected to server!");
+
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+                out.println("testUser");
+                Log.d("aaaaa", "Enviao");
+
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-
-                // Send request to server (assuming 'user/1' is a valid query)
-                out.println("user/1");
-
-                // Read the object sent from the server (now the mobile app has access to the Users class)
                 Users response = (Users) ois.readObject();
+                Log.d("aaaaa", response.toString());
 
-                // Log the response
-                Log.d("UnasPruebas", response.toString());
-
-                // Close the socket connection
-                socket.close();
+            /*
+            InputStreamReader isr = new InputStreamReader(socket.getInputStream());
+            BufferedReader br = new Buf feredReader(isr);
+            String x = br.readLine();
+            Log.d("aaaaa", x);
+            Log.d("aaaaa", "Communication finished!");
+            */
             } catch (Exception e) {
+                Log.d("aaaaa", "Error: " + e.getMessage());
                 e.printStackTrace();
             }
         }).start();
-
-        try {
-            String kode = localDBDao.getLanguage();
-            setLocale(kode);
-        }catch (Exception e){
-            localDBDao.addLanguage("eu");
-        }
 
         lbl_user = (TextView) findViewById(R.id.lbl_user);
         lbl_password = (TextView) findViewById(R.id.lbl_password);
@@ -104,11 +104,18 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hizkuntza.setAdapter(adapter);
 
+        try {
+            String kode = localDBDao.getLanguage();
+            setLocale(kode);
+        }catch (Exception e){
+            localDBDao.addLanguage("eu");
+            setLocale("eu");
+        }
+
         lbl_clickHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "pide correus", Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -122,20 +129,19 @@ public class MainActivity extends AppCompatActivity {
         hizkuntza.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    switch (position) {
-                        case 0:
-                            localDBDao.changeLanguage("eu"); // Euskara
-                            break;
-                        case 1:
-                            localDBDao.changeLanguage("en"); // English
-                            break;
-                        case 2:
-                            localDBDao.changeLanguage("es"); // Español
-                            break;
-                        default:
-                    }
+                switch (position) {
+                    case 0:
+                        lan = "eu";
+                        break;
+                    case 1:
+                        lan = "en";
+                        break;
+                    case 2:
+                        lan = "es";
+                        break;
+                    default:
+                }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -145,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
         btn_changeLanguage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                localDBDao.changeLanguage(lan);
                 setLocale(localDBDao.getLanguage());
-                recreateView();
             }
         });
 
@@ -158,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         Configuration config = new Configuration();
         config.setLocale(locale);
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+        recreateView();
     }
 
     private void recreateView(){
@@ -169,5 +176,9 @@ public class MainActivity extends AppCompatActivity {
         lbl_clickHere.setText(R.string.clickHere);
         btn_login.setText(R.string.login);
 
+        String[] opciones = getResources().getStringArray(R.array.languages);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hizkuntza.setAdapter(adapter);
     }
 }
