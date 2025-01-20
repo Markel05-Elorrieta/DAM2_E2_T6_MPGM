@@ -2,18 +2,16 @@ package com.example.dam2_e2_t6_mpgm;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import callbacks.ChangePwdCallback;
-import model.dao.UsersDao;
+import model.dao.MUsers;
 
 public class Metodos {
 
@@ -46,7 +44,7 @@ public class Metodos {
         dialog.setOnShowListener(dialogInterface -> {
             Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             button.setOnClickListener(v -> {
-                UsersDao usersDao = new UsersDao("changePwd", email.getText().toString(), new ChangePwdCallback() {
+                MUsers usersDao = new MUsers("changePwd", email.getText().toString(), new ChangePwdCallback() {
                     @Override
                     public void onChangePwd(boolean result) {
                         Log.d("loginProba", result + "");
@@ -64,7 +62,6 @@ public class Metodos {
                         }
                     }
                 });
-                usersDao.start();
             });
         });
         // Mostrar el diálogo

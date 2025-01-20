@@ -40,4 +40,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    implementation("org.parceler:parceler-api:1.1.13")
+    annotationProcessor("org.parceler:parceler:1.1.13")
 }

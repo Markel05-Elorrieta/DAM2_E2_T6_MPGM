@@ -13,7 +13,7 @@ import callbacks.ChangePwdCallback;
 import callbacks.LoginAndroidCallback;
 import model.Users;
 
-public class UsersDao extends Thread {
+public class MUsers extends Thread {
     private Socket socket;
     private PrintWriter pw;
     private ObjectInputStream ois;
@@ -25,18 +25,20 @@ public class UsersDao extends Thread {
     private LoginAndroidCallback androidCallback;
     private ChangePwdCallback callbackChangePwd;
 
-    public UsersDao(String key, String email, String password, LoginAndroidCallback callback) {
+    public MUsers(String key, String email, String password, LoginAndroidCallback callback) {
         Log.d("loginProba", "llego constructor");
         this.key = key;
         this.email = email;
         this.password = password;
         this.androidCallback = callback;
+        this.start();
     }
 
-    public UsersDao(String key, String email, ChangePwdCallback callback) {
+    public MUsers(String key, String email, ChangePwdCallback callback) {
         this.key = key;
         this.email = email;
         this.callbackChangePwd = callback;
+        this.start();
     }
 
     @Override
@@ -73,7 +75,6 @@ public class UsersDao extends Thread {
             ois = new ObjectInputStream(socket.getInputStream());
             Log.d("loginProba", "toca leer");
             Users user = (Users) ois.readObject();
-            Log.d("loginProba", user.toString());
             if (user != null) {
                 GlobalVariables.logedUser = user;
                 callback.onLoginAndroid(true);

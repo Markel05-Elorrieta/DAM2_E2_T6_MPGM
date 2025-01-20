@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,19 +25,21 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.dam2_e2_t6_mpgm.localStorageDB.LocalDBDao;
 
-import java.io.ObjectInputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import callbacks.LoginAndroidCallback;
-import model.dao.UsersDao;
+import callbacks.ScheduleTeacherCallback;
+import model.Horarios;
+import model.dao.MHorarios;
+import model.dao.MUsers;
 
 public class MainActivity extends AppCompatActivity {
 
     private LocalDBDao localDBDao = new LocalDBDao(this);
     private String lan = "eu";
 
+    private ImageView img_logo;
     private TextView lbl_user;
     private TextView lbl_password;
     private EditText txt_user;
@@ -63,37 +66,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        new Thread(() -> {
-            try {
-                Socket socket = new Socket("10.5.104.43", 23456);
-                System.out.println("Connected to server!");
-
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
-                out.println("newPwd");
-                Log.d("aaaaa", "Enviao");
-
-                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                Object response = (Object) ois.readObject();
-                Log.d("aaaaa", response.toString());
-
-                if (response.equals("true")) {
-                    Log.d("aaaaa", "entra");
-                }
-
-/*
-            InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-            BufferedReader br = new BufferedReader(isr);
-            String x = br.readLine();
-            Log.d("aaaaa", x);
-            Log.d("aaaaa", "Communication finished!");
-*/
-            } catch (Exception e) {
-                Log.d("aaaaa", "Error: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }).start();
-
+        img_logo = (ImageView) findViewById(R.id.gifLogo);
         lbl_user = (TextView) findViewById(R.id.lbl_user);
         lbl_password = (TextView) findViewById(R.id.lbl_password);
         txt_user = (EditText) findViewById(R.id.txt_user);
@@ -109,8 +82,23 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hizkuntza.setAdapter(adapter);
 
+        /* GIF NO WORK*/
+        /*
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.minihello)// Cambia "tu_gif" por el nombre del archivo GIF
+                .into(img_logo);
+        */
+
         try {
             String kode = localDBDao.getLanguage();
+            if (kode.equals("eu")) {
+                hizkuntza.setSelection(0);
+            } else if (kode.equals("en")) {
+                hizkuntza.setSelection(1);
+            } else {
+                hizkuntza.setSelection(2);
+            }
             setLocale(kode);
         }catch (Exception e){
             localDBDao.addLanguage("eu");
@@ -129,22 +117,33 @@ public class MainActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UsersDao usersDao = new UsersDao("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {
+                MUsers usersDao = new MUsers("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {
                     @Override
                     public void onLoginAndroid(boolean isLogin) {
                         Log.d("loginProba", isLogin + "");
                         if (isLogin) {
                             if (GlobalVariables.logedUser.getTipos().getId() == 3) {
+                                MHorarios horariosDao = new MHorarios("scheduleTeacher", GlobalVariables.logedUser, new ScheduleTeacherCallback() {
+                                    @Override
+                                    public void onScheduleTeacher(ArrayList<Horarios> horario) {
+                                        Log.d("loginProba", horario + "");
+                                    }
+                                });
+
                                 Intent intent = new Intent(MainActivity.this, IrakasleActivity.class);
+
                                 logout.launch(intent);
                             } else {
                                 Intent intent = new Intent(MainActivity.this, IkasleActivity.class);
                                 logout.launch(intent);
                             }
+                        } else {
+                            runOnUiThread(() -> {
+                                Toast.makeText(MainActivity.this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show();
+                            });
                         }
                     }
                 });
-                usersDao.start();
             }
         });
 
@@ -201,6 +200,14 @@ public class MainActivity extends AppCompatActivity {
         String[] opciones = getResources().getStringArray(R.array.languages);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        String kode = localDBDao.getLanguage();
         hizkuntza.setAdapter(adapter);
+        if (kode.equals("eu")) {
+            hizkuntza.setSelection(0);
+        } else if (kode.equals("en")) {
+            hizkuntza.setSelection(1);
+        } else {
+            hizkuntza.setSelection(2);
+        }
     }
 }

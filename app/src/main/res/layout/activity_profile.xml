@@ -24,36 +24,6 @@
         tools:context=".MainActivity">
 
         <!-- Content of your activity -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            app:layout_anchor="@+id/toolbar"
-            app:layout_anchorGravity="center"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-            <!-- ImageView for the toolbar icon -->
-            <ImageView
-                android:id="@+id/toolbar_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_launcher_foreground" />
-
-            <!-- TextView for the toolbar title -->
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="16dp"
-                android:text="My Toolbar"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-        </androidx.appcompat.widget.Toolbar>
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -12,6 +12,71 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Irakasle"
-        tools:layout_editor_absoluteX="159dp"
-        tools:layout_editor_absoluteY="330dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="#F5F5F5"
+        android:stretchColumns="*"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_schedule" />
+
+    <TextView
+        android:id="@+id/lbl_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Schedule"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.119" />
+
+    <TextView
+        android:id="@+id/lbl_ikasleak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Ikasleak"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_ikasleList"
+        android:layout_width="match_parent"
+        android:layout_height="413dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_filterZikloa" />
+
+    <EditText
+        android:id="@+id/et_filterZikloa"
+        android:layout_width="131dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="filtro ziklo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_ikasleak" />
+
+    <EditText
+        android:id="@+id/et_filterIkasturtea"
+        android:layout_width="121dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="filtro ikasturte"
+        app:layout_constraintStart_toEndOf="@+id/et_filterZikloa"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_ikasleak" />
 </androidx.constraintlayout.widget.ConstraintLayout>
