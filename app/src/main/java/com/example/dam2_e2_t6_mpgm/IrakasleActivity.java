@@ -23,10 +23,19 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import callbacks.UsersFilteredCallback;
 import model.Horarios;
 import model.Users;
+import model.dao.MUsers;
 
 public class IrakasleActivity extends AppCompatActivity {
+
+    private ArrayList<Horarios> horariosIrakasle;
+    private ArrayList<Users> ikasleList;
+
+    private IkasleListAdapter adapter;
+    private EditText et_filterZiklo;
+    private EditText et_filterIkasturte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +48,39 @@ public class IrakasleActivity extends AppCompatActivity {
             return insets;
         });
 
-        ArrayList<Horarios> horariosIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIrakasle"));
-        ArrayList<Users> ikasleList = Parcels.unwrap(getIntent().getParcelableExtra("ikasleList"));
+        horariosIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIrakasle"));
+        ikasleList = Parcels.unwrap(getIntent().getParcelableExtra("ikasleList"));
 
-        TableLayout tableLayout = findViewById(R.id.tableLayout);
+        TableLayout tableLayout = findViewById(R.id.tableLayoutIrakasle);
         RecyclerView recyclerView = findViewById(R.id.rv_ikasleList);
-        EditText et_filterZiklo = findViewById(R.id.et_filterZikloa);
-        EditText et_filterIkasturte = findViewById(R.id.et_filterIkasturtea);
+        et_filterZiklo = findViewById(R.id.et_filterZikloa);
+        et_filterIkasturte = findViewById(R.id.et_filterIkasturtea);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        IkasleListAdapter adapter = new IkasleListAdapter(ikasleList, this);
+        adapter = new IkasleListAdapter(ikasleList, this);
         recyclerView.setAdapter(adapter);
+
+        et_filterZiklo.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE ||
+                    event != null && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER &&
+                            event.getAction() == android.view.KeyEvent.ACTION_DOWN) {
+                doFilter();
+                return true;
+            }
+            return false;
+        });
+
+        et_filterIkasturte.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE ||
+                    event != null && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER &&
+                            event.getAction() == android.view.KeyEvent.ACTION_DOWN) {
+                doFilter();
+                return true;
+            }
+            return false;
+        });
+
+
 
         /*--------------------------------------------*/
 
@@ -97,6 +128,21 @@ public class IrakasleActivity extends AppCompatActivity {
                 tableRow.addView(cellTextView);
             }
             tableLayout.addView(tableRow);
+        }
+    }
+
+    private void doFilter(){
+        if (et_filterIkasturte.getText().toString().isEmpty() && et_filterZiklo.getText().toString().isEmpty()) {
+            adapter.setIkasleList(ikasleList);
+            Log.d("usersFiltered", et_filterZiklo.getText().toString());
+        } else {
+            MUsers mUsers = new MUsers("usersFiltered", et_filterZiklo.getText().toString(), et_filterIkasturte.getText().toString(), new UsersFilteredCallback() {
+                @Override
+                public void onUsersFiltered(ArrayList<Users> users) {
+                    Log.d("usersFiltered", et_filterZiklo.getText().toString());
+                    adapter.setIkasleList(users);
+                }
+            });
         }
     }
 }

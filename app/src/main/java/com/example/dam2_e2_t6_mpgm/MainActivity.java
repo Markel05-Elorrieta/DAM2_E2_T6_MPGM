@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import callbacks.LoginAndroidCallback;
+import callbacks.ScheduleStudentCallback;
 import callbacks.ScheduleTeacherCallback;
 import callbacks.UsersByTeacherCallback;
 import model.Horarios;
@@ -118,47 +119,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        txt_password.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE ||
+                    event != null && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER &&
+                            event.getAction() == android.view.KeyEvent.ACTION_DOWN) {
+                doLogin();
+                return true;
+            }
+            return false;
+        });
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                MUsers usersDao = new MUsers("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {
-                    @Override
-                    public void onLoginAndroid(boolean isLogin) {
-
-                        Log.d("loginProba", isLogin + "");
-                        if (isLogin) {
-                            if (GlobalVariables.logedUser.getTipos().getId() == 3) {
-
-                                Intent intent = new Intent(MainActivity.this, IrakasleActivity.class);
-
-                                MHorarios horariosDao = new MHorarios("scheduleTeacher", GlobalVariables.logedUser, new ScheduleTeacherCallback() {
-                                    @Override
-                                    public void onScheduleTeacher(ArrayList<Horarios> horario) {
-                                        Log.d("loginProba", horario + "");
-                                        intent.putExtra("horariosIrakasle", Parcels.wrap(horario));
-
-                                        MUsers usersDao = new MUsers("usersByTeacher", GlobalVariables.logedUser.getId(), new UsersByTeacherCallback() {
-                                            @Override
-                                            public void onUserByTeacher(ArrayList<Users> users) {
-                                                Log.d("loginProba", users + "");
-                                                intent.putExtra("ikasleList", Parcels.wrap(users));
-                                                logout.launch(intent);
-                                            }
-                                        });
-                                    }
-                                });
-                            } else {
-                                Intent intent = new Intent(MainActivity.this, IkasleActivity.class);
-                                logout.launch(intent);
-                            }
-                        } else {
-                            runOnUiThread(() -> {
-                                Toast.makeText(MainActivity.this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show();
-                            });
-                        }
-                    }
-                });
+                doLogin();
             }
         });
 
@@ -192,6 +166,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void doLogin(){
+        MUsers usersDao = new MUsers("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {
+            @Override
+            public void onLoginAndroid(boolean isLogin) {
+
+                Log.d("loginProba", isLogin + "");
+                if (isLogin) {
+                    if (GlobalVariables.logedUser.getTipos().getId() == 3) {
+
+                        Intent intent = new Intent(MainActivity.this, IrakasleActivity.class);
+
+                        MHorarios horariosDao = new MHorarios("scheduleTeacher", GlobalVariables.logedUser, new ScheduleTeacherCallback() {
+                            @Override
+                            public void onScheduleTeacher(ArrayList<Horarios> horario) {
+                                Log.d("loginProba", horario + "");
+                                intent.putExtra("horariosIrakasle", Parcels.wrap(horario));
+
+                                MUsers usersDao = new MUsers("usersByTeacher", GlobalVariables.logedUser.getId(), new UsersByTeacherCallback() {
+                                    @Override
+                                    public void onUserByTeacher(ArrayList<Users> users) {
+                                        Log.d("loginProba", users + "");
+                                        intent.putExtra("ikasleList", Parcels.wrap(users));
+                                        logout.launch(intent);
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Intent intent = new Intent(MainActivity.this, IkasleActivity.class);
+
+                        MUsers usersDao = new MUsers("scheduleStudent", GlobalVariables.logedUser.getId(), new ScheduleStudentCallback() {
+                            @Override
+                            public void onScheduleStudent(ArrayList<Horarios> horario) {
+                                intent.putExtra("horariosIkasle", Parcels.wrap(horario));
+                                logout.launch(intent);
+                            }
+                        });
+                    }
+                } else {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            }
+        });
     }
 
     private void setLocale(String languageCode) {
