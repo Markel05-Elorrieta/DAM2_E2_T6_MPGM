@@ -2,8 +2,10 @@ package com.example.dam2_e2_t6_mpgm;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -14,6 +16,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
+
+import model.Horarios;
+import model.Users;
 
 public class IrakasleActivity extends AppCompatActivity {
 
@@ -28,7 +39,19 @@ public class IrakasleActivity extends AppCompatActivity {
             return insets;
         });
 
+        ArrayList<Horarios> horariosIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIrakasle"));
+        ArrayList<Users> ikasleList = Parcels.unwrap(getIntent().getParcelableExtra("ikasleList"));
+
         TableLayout tableLayout = findViewById(R.id.tableLayout);
+        RecyclerView recyclerView = findViewById(R.id.rv_ikasleList);
+        EditText et_filterZiklo = findViewById(R.id.et_filterZikloa);
+        EditText et_filterIkasturte = findViewById(R.id.et_filterIkasturtea);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        IkasleListAdapter adapter = new IkasleListAdapter(ikasleList, this);
+        recyclerView.setAdapter(adapter);
+
+        /*--------------------------------------------*/
 
         // Add the header row
         TableRow headerRow = new TableRow(this);
@@ -44,15 +67,8 @@ public class IrakasleActivity extends AppCompatActivity {
         headerRow.setBackgroundColor(Color.parseColor("#007DC3")); // Blue header background
         tableLayout.addView(headerRow);
 
-        // Define the schedule data
-        String[][] schedule = {
-                {"2DAM-D\nModulua 1", "", "", "2DAM-D\nModulua 1", ""},
-                {"2DAM-D\nModulua 1", "1ASIR\nModulua 2", "", "2DAM-D\nModulua 1", ""},
-                {"", "Tutoretza", "", "", "Zaintza"},
-                {"", "Zaintza", "Zaintza", "", ""},
-                {"1ASIR\nModulua 2", "", "", "", "2SMR-D\nModulua 3"},
-                {"1ASIR\nModulua 2", "", "", "", "2SMR-D\nModulua 3"}
-        };
+        Metodos metodos = new Metodos();
+        String[][] schedule = metodos.generateArrayTable(horariosIrakasle);
 
         // Add rows dynamically
         for (int i = 0; i < schedule.length; i++) {

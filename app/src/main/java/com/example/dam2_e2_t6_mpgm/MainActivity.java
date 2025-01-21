@@ -25,12 +25,16 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.dam2_e2_t6_mpgm.localStorageDB.LocalDBDao;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
 import callbacks.LoginAndroidCallback;
 import callbacks.ScheduleTeacherCallback;
+import callbacks.UsersByTeacherCallback;
 import model.Horarios;
+import model.Users;
 import model.dao.MHorarios;
 import model.dao.MUsers;
 
@@ -117,22 +121,33 @@ public class MainActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 MUsers usersDao = new MUsers("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {
                     @Override
                     public void onLoginAndroid(boolean isLogin) {
+
                         Log.d("loginProba", isLogin + "");
                         if (isLogin) {
                             if (GlobalVariables.logedUser.getTipos().getId() == 3) {
+
+                                Intent intent = new Intent(MainActivity.this, IrakasleActivity.class);
+
                                 MHorarios horariosDao = new MHorarios("scheduleTeacher", GlobalVariables.logedUser, new ScheduleTeacherCallback() {
                                     @Override
                                     public void onScheduleTeacher(ArrayList<Horarios> horario) {
                                         Log.d("loginProba", horario + "");
+                                        intent.putExtra("horariosIrakasle", Parcels.wrap(horario));
+
+                                        MUsers usersDao = new MUsers("usersByTeacher", GlobalVariables.logedUser.getId(), new UsersByTeacherCallback() {
+                                            @Override
+                                            public void onUserByTeacher(ArrayList<Users> users) {
+                                                Log.d("loginProba", users + "");
+                                                intent.putExtra("ikasleList", Parcels.wrap(users));
+                                                logout.launch(intent);
+                                            }
+                                        });
                                     }
                                 });
-
-                                Intent intent = new Intent(MainActivity.this, IrakasleActivity.class);
-
-                                logout.launch(intent);
                             } else {
                                 Intent intent = new Intent(MainActivity.this, IkasleActivity.class);
                                 logout.launch(intent);

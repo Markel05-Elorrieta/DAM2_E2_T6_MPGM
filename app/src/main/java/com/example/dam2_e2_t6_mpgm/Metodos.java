@@ -10,12 +10,15 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import callbacks.ChangePwdCallback;
+import model.Horarios;
+import model.Users;
 import model.dao.MUsers;
 
 public class Metodos {
-
-
     public void pedirCorreo(Context context) {
         // Crear el AlertDialog Builder
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -66,5 +69,58 @@ public class Metodos {
         });
         // Mostrar el diálogo
         dialog.show();
+    }
+
+    public String[][] generateArrayTable(ArrayList<Horarios> horarios) {
+        String[][] schedule = new String[5][5];
+
+        int x = -1;
+        int y = -1;
+
+        for (Horarios h : horarios) {
+            switch (Character.getNumericValue(h.getId().getHora())) {
+                case 1:
+                    x = 0;
+                    break;
+                case 2:
+                    x = 1;
+                    break;
+                case 3:
+                    x = 2;
+                    break;
+                case 4:
+                    x = 3;
+                    break;
+                case 5:
+                    x = 4;
+                    break;
+            }
+
+            switch (h.getId().getDia()) {
+                case "L/A":
+                    y = 0;
+                    break;
+                case "M/A":
+                    y = 1;
+                    break;
+                case "X":
+                    y = 2;
+                    break;
+                case "J/O":
+                    y = 3;
+                    break;
+                case "V/O":
+                    y = 4;
+                    break;
+            }
+            Log.d("loginProba", x + " " + y);
+            schedule[x][y] = h.getModulos().getNombre();
+        }
+
+        return schedule;
+    }
+
+    private int charToInt(char c) {
+        return c - '1';
     }
 }

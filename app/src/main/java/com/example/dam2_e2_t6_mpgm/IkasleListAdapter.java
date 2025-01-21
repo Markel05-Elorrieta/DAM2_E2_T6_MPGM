@@ -1,5 +1,6 @@
 package com.example.dam2_e2_t6_mpgm;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,6 +17,11 @@ public class IkasleListAdapter extends RecyclerView.Adapter<IkasleListAdapter.Vi
     private ArrayList<Users> ikasleList;
     private IrakasleActivity ia;
 
+    public IkasleListAdapter(ArrayList<Users> ikasleList, IrakasleActivity ia) {
+        this.ikasleList = ikasleList;
+        this.ia = ia;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView name;
@@ -30,17 +36,26 @@ public class IkasleListAdapter extends RecyclerView.Adapter<IkasleListAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.layout_ikasle, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Users ikasle = ikasleList.get(position);
+        holder.image.setImageResource(R.drawable.ic_launcher_foreground);
+        holder.name.setText(ikasle.getNombre() + " " + ikasle.getApellidos());
+    }
 
+    public void setIkasleList(ArrayList<Users> ikasleList) {
+        this.ikasleList = ikasleList;
+        //notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return ikasleList.size();
     }
 
 }
