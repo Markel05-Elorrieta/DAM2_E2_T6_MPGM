@@ -31,6 +31,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import callbacks.GetTeachersCallback;
 import callbacks.LoginAndroidCallback;
 import callbacks.ScheduleStudentCallback;
 import callbacks.ScheduleTeacherCallback;
@@ -180,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(MainActivity.this, IrakasleActivity.class);
 
-                        MHorarios horariosDao = new MHorarios("scheduleTeacher", GlobalVariables.logedUser, new ScheduleTeacherCallback() {
+                        MHorarios horariosDao = new MHorarios("scheduleTeacher", GlobalVariables.logedUser.getId(), new ScheduleTeacherCallback() {
                             @Override
                             public void onScheduleTeacher(ArrayList<Horarios> horario) {
                                 Log.d("loginProba", horario + "");
@@ -203,7 +204,23 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onScheduleStudent(ArrayList<Horarios> horario) {
                                 intent.putExtra("horariosIkasle", Parcels.wrap(horario));
-                                logout.launch(intent);
+
+                                MUsers usersDao1 = new MUsers("getTeachers", new GetTeachersCallback() {
+                                    @Override
+                                    public void onTeachersCallback(ArrayList<Users> irakasleak) {
+                                        intent.putExtra("irakasleak", Parcels.wrap(irakasleak));
+
+                                        MHorarios horariosDao = new MHorarios("scheduleTeacher", irakasleak.get(0).getId(), new ScheduleTeacherCallback() {
+                                            @Override
+                                            public void onScheduleTeacher(ArrayList<Horarios> horarioIrakasle) {
+                                                intent.putExtra("horarioIrakasle", Parcels.wrap(horarioIrakasle));
+                                                logout.launch(intent);
+                                            }
+                                        });
+
+
+                                    }
+                                });
                             }
                         });
                     }

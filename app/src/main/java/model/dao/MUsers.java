@@ -6,14 +6,13 @@ import com.example.dam2_e2_t6_mpgm.GlobalVariables;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 import callbacks.ChangePwdCallback;
+import callbacks.GetTeachersCallback;
 import callbacks.LoginAndroidCallback;
 import callbacks.ScheduleStudentCallback;
 import callbacks.UsersByTeacherCallback;
@@ -41,6 +40,7 @@ public class MUsers extends Thread {
     private UsersByTeacherCallback callbackUsersByTeacher;
     private UsersFilteredCallback callbackUsersFiltered;
     private ScheduleStudentCallback callbackScheduleStudent;
+    private GetTeachersCallback callbackGetIrakasleNames;
 
     public MUsers(String key, String email, String password, LoginAndroidCallback callback) {
         Log.d("loginProba", "llego constructor");
@@ -80,6 +80,12 @@ public class MUsers extends Thread {
         this.start();
     }
 
+    public MUsers(String key, GetTeachersCallback callback) {
+        this.key = key;
+        this.callbackGetIrakasleNames = callback;
+        this.start();
+    }
+
     @Override
     public void run() {
         try {
@@ -103,6 +109,9 @@ public class MUsers extends Thread {
                     break;
                 case "scheduleStudent":
                     scheduleStudent(idIkasle, callbackScheduleStudent);
+                    break;
+                case "getTeachers":
+                    getTeachers(callbackGetIrakasleNames);
                     break;
 
             }
@@ -208,5 +217,23 @@ public class MUsers extends Thread {
             Log.d("loginProba", "error");
             throw new RuntimeException(e);
         }
+    }
+
+    public void getTeachers(GetTeachersCallback callback) {
+        try {
+            pw.println("getTeachers");
+
+            ois = new ObjectInputStream(socket.getInputStream());
+            ArrayList<Users> irakasleak = (ArrayList<Users>) ois.readObject();
+
+            callback.onTeachersCallback(irakasleak);
+        } catch (IOException e) {
+            Log.d("loginProba", "error");
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            Log.d("loginProba", "error");
+            throw new RuntimeException(e);
+        }
+
     }
 }

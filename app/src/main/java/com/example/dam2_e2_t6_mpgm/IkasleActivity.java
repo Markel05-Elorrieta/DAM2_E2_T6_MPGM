@@ -1,10 +1,13 @@
 package com.example.dam2_e2_t6_mpgm;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -21,10 +24,16 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import model.Horarios;
+import model.Users;
 
 public class IkasleActivity extends AppCompatActivity {
 
     private ArrayList<Horarios> horarioIkasle;
+    private ArrayList<Users> irakasleak;
+    private ArrayList<Horarios> horarioIrakasle;
+    private TableLayout tableLayoutIkasle;
+    private TableLayout tableLayoutIrakasle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +47,39 @@ public class IkasleActivity extends AppCompatActivity {
         });
 
         horarioIkasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIkasle"));
+        irakasleak = Parcels.unwrap(getIntent().getParcelableExtra("irakasleak"));
+        horarioIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("horarioIrakasle"));
+
         Log.d("horarioIkasle", horarioIkasle.toString());
 
-        TableLayout tableLayout = findViewById(R.id.tableLayoutIkasle);
+        tableLayoutIkasle = findViewById(R.id.tableLayoutIkasle);
+        tableLayoutIrakasle = findViewById(R.id.tableLayoutIkasleIrakasle);
 
+        Spinner s_irakasleak = findViewById(R.id.s_irakasle);
+
+        Metodos metodos = new Metodos();
+        String[] opciones = metodos.getNames(irakasleak);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s_irakasleak.setAdapter(adapter);
+
+
+        tableLayoutIkasle.addView(createHeaderRow());
+        tableLayoutIrakasle.addView(createHeaderRow());
+
+        String[][] scheduleIkasle = metodos.generateArrayTable(horarioIkasle);
+        String[][] scheduleIrakasle = metodos.generateArrayTable(horarioIrakasle);
+
+        fillTable(tableLayoutIkasle, scheduleIkasle);
+        fillTable(tableLayoutIrakasle, scheduleIrakasle);
+        // Add rows dynamically
+
+    }
+
+    private TableRow createHeaderRow() {
         TableRow headerRow = new TableRow(this);
-        String[] headers = {"Astelehena", "Asteartea", "Asteazkena", "Osteguna", "Ostirala"};
-        for (String header : headers) {
+        String[] headersName = {"Astelehena", "Asteartea", "Asteazkena", "Osteguna", "Ostirala"};
+        for (String header : headersName) {
             TextView headerTextView = new TextView(this);
             headerTextView.setText(header);
             headerTextView.setGravity(Gravity.CENTER);
@@ -53,12 +88,10 @@ public class IkasleActivity extends AppCompatActivity {
             headerRow.addView(headerTextView);
         }
         headerRow.setBackgroundColor(Color.parseColor("#007DC3")); // Blue header background
-        tableLayout.addView(headerRow);
+        return headerRow;
+    }
 
-        Metodos metodos = new Metodos();
-        String[][] schedule = metodos.generateArrayTable(horarioIkasle);
-
-        // Add rows dynamically
+    private void fillTable(TableLayout layout, String[][] schedule){
         for (int i = 0; i < schedule.length; i++) {
             TableRow tableRow = new TableRow(this);
             for (int j = 0; j < schedule[i].length; j++) {
@@ -84,7 +117,7 @@ public class IkasleActivity extends AppCompatActivity {
 
                 tableRow.addView(cellTextView);
             }
-            tableLayout.addView(tableRow);
+            layout.addView(tableRow);
         }
     }
 }

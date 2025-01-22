@@ -20,12 +20,12 @@ public class MHorarios extends Thread{
     private ObjectInputStream ois;
 
     private String key;
-    private Users user;
+    private int id;
     private ScheduleTeacherCallback callback;
 
-    public MHorarios(String key, Users user, ScheduleTeacherCallback callback) {
+    public MHorarios(String key, int id, ScheduleTeacherCallback callback) {
         this.key = key;
-        this.user = user;
+        this.id = id;
         this.callback = callback;
 
         this.start();
@@ -40,7 +40,7 @@ public class MHorarios extends Thread{
 
             switch (key) {
                 case "scheduleTeacher":
-                    getScheduleTeacher(user);
+                    getScheduleTeacher(id);
                     break;
             }
 
@@ -50,9 +50,9 @@ public class MHorarios extends Thread{
         }
     }
 
-    private void getScheduleTeacher(Users user){
+    private void getScheduleTeacher(int id){
         try {
-            pw.println("scheduleTeacher/" + user.getId());
+            pw.println("scheduleTeacher/" + id);
 
             ois = new ObjectInputStream(socket.getInputStream());
             ArrayList<Horarios> horarios = (ArrayList<Horarios>) ois.readObject();

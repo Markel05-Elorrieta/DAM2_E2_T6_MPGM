@@ -123,4 +123,14 @@ public class Metodos {
     private int charToInt(char c) {
         return c - '1';
     }
+
+    public String[] getNames (ArrayList<Users> users){
+        String[] names = new String[users.size()];
+
+        for (int i = 0; i < users.size(); i++) {
+            names[i] = users.get(i).getNombre();
+        }
+
+        return names;
+    }
 }
