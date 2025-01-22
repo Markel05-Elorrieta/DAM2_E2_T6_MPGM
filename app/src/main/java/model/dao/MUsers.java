@@ -6,9 +6,12 @@ import com.example.dam2_e2_t6_mpgm.GlobalVariables;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 import callbacks.ChangePwdCallback;
 import callbacks.LoginAndroidCallback;
@@ -22,6 +25,8 @@ public class MUsers extends Thread {
     private Socket socket;
     private PrintWriter pw;
     private ObjectInputStream ois;
+
+    private ObjectOutputStream oos;
 
     private String key;
     private String email;

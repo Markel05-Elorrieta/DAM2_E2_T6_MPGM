@@ -1,5 +1,6 @@
 package com.example.dam2_e2_t6_mpgm;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,7 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import callbacks.UsersByTeacherCallback;
 import callbacks.UsersFilteredCallback;
 import model.Horarios;
 import model.Users;
@@ -36,6 +41,10 @@ public class IrakasleActivity extends AppCompatActivity {
     private IkasleListAdapter adapter;
     private EditText et_filterZiklo;
     private EditText et_filterIkasturte;
+
+    private final ActivityResultLauncher<Intent> recreate =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,16 +142,44 @@ public class IrakasleActivity extends AppCompatActivity {
 
     private void doFilter(){
         if (et_filterIkasturte.getText().toString().isEmpty() && et_filterZiklo.getText().toString().isEmpty()) {
-            adapter.setIkasleList(ikasleList);
-            Log.d("usersFiltered", et_filterZiklo.getText().toString());
+            MUsers usersDao = new MUsers("usersByTeacher", GlobalVariables.logedUser.getId(), new UsersByTeacherCallback() {
+                @Override
+                public void onUserByTeacher(ArrayList<Users> users) {
+                    Intent intent = new Intent(IrakasleActivity.this, IrakasleActivity.class);
+                    intent.putExtra("horariosIrakasle", Parcels.wrap(horariosIrakasle));
+                    intent.putExtra("ikasleList", Parcels.wrap(users));
+                    recreate.launch(intent);
+                }
+            });
+
         } else {
-            MUsers mUsers = new MUsers("usersFiltered", et_filterZiklo.getText().toString(), et_filterIkasturte.getText().toString(), new UsersFilteredCallback() {
+            String auxZiklo;
+            String auxIkasturte;
+            if (et_filterZiklo.getText().toString().isEmpty()) {
+                auxZiklo = "0";
+            } else {
+                auxZiklo = et_filterZiklo.getText().toString();
+            }
+
+            if (et_filterIkasturte.getText().toString().isEmpty()) {
+                auxIkasturte = "0";
+            } else {
+                auxIkasturte = et_filterIkasturte.getText().toString();
+            }
+
+            MUsers mUsers = new MUsers("usersFiltered", auxZiklo, auxIkasturte, new UsersFilteredCallback() {
                 @Override
                 public void onUsersFiltered(ArrayList<Users> users) {
                     Log.d("usersFiltered", et_filterZiklo.getText().toString());
-                    adapter.setIkasleList(users);
+                    Intent intent = new Intent(IrakasleActivity.this, IrakasleActivity.class);
+                    intent.putExtra("horariosIrakasle", Parcels.wrap(horariosIrakasle));
+                    intent.putExtra("ikasleList", Parcels.wrap(users));
+                    recreate.launch(intent);
                 }
             });
+
+
+            //adapter.notifyDataSetChanged();
         }
     }
 }

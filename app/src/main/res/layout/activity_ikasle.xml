@@ -7,14 +7,26 @@
     android:layout_height="match_parent"
     tools:context=".IkasleActivity">
 
+    <TextView
+        android:id="@+id/lbl_scheduleIkasleIrakasle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Schedule"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.119" />
+
     <HorizontalScrollView
         android:id="@+id/horizontalScrollViewIkasle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_scheduleIkasle">
+        app:layout_constraintTop_toBottomOf="@+id/lbl_scheduleIkasleIrakasle">
 
         <TableLayout
             android:id="@+id/tableLayoutIkasle"
@@ -29,11 +41,56 @@
         android:id="@+id/lbl_scheduleIkasle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Schedule"
+        android:text="Schedule Irakasle"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119" />
+        app:layout_constraintVertical_bias="0.601" />
+
+    <Spinner
+        android:id="@+id/s_irakasle"
+        android:layout_width="171dp"
+        android:layout_height="30dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.583"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.61" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollViewIkasleIrakasle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_scheduleIkasle">
+
+        <TableLayout
+            android:id="@+id/tableLayoutIkasleIrakasle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#F5F5F5"
+            android:stretchColumns="*"></TableLayout>
+
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/btn_filtratuHorario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.604" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,6 +39,7 @@ public class IkasleActivity extends AppCompatActivity {
 
         horarioIkasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIkasle"));
         Log.d("horarioIkasle", horarioIkasle.toString());
+
         TableLayout tableLayout = findViewById(R.id.tableLayoutIkasle);
 
         TableRow headerRow = new TableRow(this);

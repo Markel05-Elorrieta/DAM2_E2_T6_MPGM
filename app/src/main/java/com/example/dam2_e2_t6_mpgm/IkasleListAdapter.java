@@ -50,7 +50,6 @@ public class IkasleListAdapter extends RecyclerView.Adapter<IkasleListAdapter.Vi
 
     public void setIkasleList(ArrayList<Users> ikasleList) {
         this.ikasleList = ikasleList;
-        notifyDataSetChanged();
     }
 
     @Override

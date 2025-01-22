@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         lbl_forgotPassword = (TextView) findViewById(R.id.lbl_forgotPassword);
         lbl_clickHere = (TextView) findViewById(R.id.lbl_clickHere);
         btn_login = (Button) findViewById(R.id.btn_login);
-        hizkuntza = (Spinner) findViewById(R.id.s_language);
+        hizkuntza = (Spinner) findViewById(R.id.s_irakasle);
         btn_changeLanguage = (Button) findViewById(R.id.btn_changeLanguage);
 
         String[] opciones = getResources().getStringArray(R.array.languages);
