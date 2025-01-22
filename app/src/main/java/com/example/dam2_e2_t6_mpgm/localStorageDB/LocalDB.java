@@ -16,7 +16,7 @@ public class LocalDB extends SQLiteOpenHelper {
     private static final String CREATE_TABLE =
             "CREATE TABLE " + TABLE_HIZKUNTZA + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_HIZKUNTZAKODE + " TEXT NOT NULL , + );";
+                    COLUMN_HIZKUNTZAKODE + " TEXT NOT NULL);";
 
     public LocalDB(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

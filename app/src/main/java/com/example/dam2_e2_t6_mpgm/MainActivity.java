@@ -23,6 +23,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 
+import com.bumptech.glide.Glide;
 import com.example.dam2_e2_t6_mpgm.localStorageDB.LocalDBDao;
 
 import org.parceler.Parcels;
@@ -76,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
         lbl_password = (TextView) findViewById(R.id.lbl_password);
         txt_user = (EditText) findViewById(R.id.txt_user);
         txt_password = (EditText) findViewById(R.id.txt_password);
-        lbl_forgotPassword = (TextView) findViewById(R.id.lbl_forgotPassword);
         lbl_clickHere = (TextView) findViewById(R.id.lbl_clickHere);
+        lbl_forgotPassword = (TextView) findViewById(R.id.lbl_forgotPassword);
         btn_login = (Button) findViewById(R.id.btn_login);
         hizkuntza = (Spinner) findViewById(R.id.s_language);
         btn_changeLanguage = (Button) findViewById(R.id.btn_changeLanguage);
@@ -88,12 +89,12 @@ public class MainActivity extends AppCompatActivity {
         hizkuntza.setAdapter(adapter);
 
         /* GIF NO WORK*/
-        /*
+
         Glide.with(this)
                 .asGif()
-                .load(R.drawable.minihello)// Cambia "tu_gif" por el nombre del archivo GIF
+                .load(R.drawable.elorrieta_logo)// Cambia "tu_gif" por el nombre del archivo GIF
                 .into(img_logo);
-        */
+
 
         try {
             String kode = localDBDao.getLanguage();
