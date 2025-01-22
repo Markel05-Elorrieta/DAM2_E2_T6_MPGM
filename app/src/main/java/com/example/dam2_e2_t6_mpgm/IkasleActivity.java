@@ -1,12 +1,15 @@
 package com.example.dam2_e2_t6_mpgm;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,17 +28,24 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import callbacks.ScheduleTeacherCallback;
 import model.Horarios;
 import model.Users;
+import model.dao.MHorarios;
 
 public class IkasleActivity extends AppCompatActivity {
 
     private ArrayList<Horarios> horarioIkasle;
     private ArrayList<Users> irakasleak;
     private ArrayList<Horarios> horarioIrakasle;
+    private int sPos;
     private TableLayout tableLayoutIkasle;
     private TableLayout tableLayoutIrakasle;
+    private Button btnFilter;
 
+    private final ActivityResultLauncher<Intent> recreate =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +61,50 @@ public class IkasleActivity extends AppCompatActivity {
         horarioIkasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIkasle"));
         irakasleak = Parcels.unwrap(getIntent().getParcelableExtra("irakasleak"));
         horarioIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("horarioIrakasle"));
+        sPos = getIntent().getIntExtra("sPos", 0);
 
         Log.d("horarioIkasle", horarioIkasle.toString());
 
         tableLayoutIkasle = findViewById(R.id.tableLayoutIkasle);
         tableLayoutIrakasle = findViewById(R.id.tableLayoutIkasleIrakasle);
-
         Spinner s_irakasleak = findViewById(R.id.s_irakasle);
+        btnFilter = (Button) findViewById(R.id.btn_filtratuHorario);
 
         Metodos metodos = new Metodos();
         String[] opciones = metodos.getNames(irakasleak);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s_irakasleak.setAdapter(adapter);
+        s_irakasleak.setSelection(sPos);
+
+        s_irakasleak.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sPos = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                 }
+        });
+
+        btnFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IkasleActivity.this, IkasleActivity.class);
+
+                MHorarios horariosDao = new MHorarios("scheduleTeacher", irakasleak.get(sPos).getId(), new ScheduleTeacherCallback() {
+                    @Override
+                    public void onScheduleTeacher(ArrayList<Horarios> newHorarioIrakasle) {
+                        intent.putExtra("sPos", sPos);
+                        intent.putExtra("horarioIrakasle", Parcels.wrap(newHorarioIrakasle));
+                        intent.putExtra("horariosIkasle", Parcels.wrap(horarioIkasle));
+                        intent.putExtra("irakasleak", Parcels.wrap(irakasleak));
+                        recreate.launch(intent);
+                    }
+                });
+            }
+        });
 
 
         tableLayoutIkasle.addView(createHeaderRow());

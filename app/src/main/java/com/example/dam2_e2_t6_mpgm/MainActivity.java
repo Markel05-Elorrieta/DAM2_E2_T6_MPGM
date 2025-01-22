@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
                                         MHorarios horariosDao = new MHorarios("scheduleTeacher", irakasleak.get(0).getId(), new ScheduleTeacherCallback() {
                                             @Override
                                             public void onScheduleTeacher(ArrayList<Horarios> horarioIrakasle) {
+                                                intent.putExtra("sPos", Parcels.wrap(0));
                                                 intent.putExtra("horarioIrakasle", Parcels.wrap(horarioIrakasle));
                                                 logout.launch(intent);
                                             }
