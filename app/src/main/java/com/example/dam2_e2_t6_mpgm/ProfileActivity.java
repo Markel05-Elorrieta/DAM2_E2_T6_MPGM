@@ -1,9 +1,12 @@
 package com.example.dam2_e2_t6_mpgm;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnBack;
     private ProfileInfoAdapter adapter;
     private Button btnChangeImg;
+    private ImageView img;
     ArrayList<String> infoList = new ArrayList<>();
 
     @Override
@@ -38,11 +42,19 @@ public class ProfileActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         RecyclerView recyclerView = findViewById(R.id.rv_infoProfile);
         btnChangeImg = findViewById(R.id.btnChangeImg);
+        img = findViewById(R.id.imgProfile);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         infoList = metodos.generateInfoProfile(GlobalVariables.logedUser, GlobalVariables.matriculacion);
         adapter = new ProfileInfoAdapter(infoList, this);
         recyclerView.setAdapter(adapter);
+
+        if (GlobalVariables.logedUser.getArgazkia() != null){
+            Bitmap bitmap = BitmapFactory.decodeByteArray(GlobalVariables.logedUser.getArgazkia(), 0, GlobalVariables.logedUser.getArgazkia().length);
+            img.setImageBitmap(bitmap);
+        } else {
+            img.setImageResource(R.drawable.defaultimg);
+        }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
