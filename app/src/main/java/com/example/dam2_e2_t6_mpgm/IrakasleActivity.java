@@ -3,9 +3,9 @@ package com.example.dam2_e2_t6_mpgm;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import callbacks.UsersByTeacherCallback;
 import callbacks.UsersFilteredCallback;
@@ -41,9 +40,12 @@ public class IrakasleActivity extends AppCompatActivity {
     private IkasleListAdapter adapter;
     private EditText et_filterZiklo;
     private EditText et_filterIkasturte;
+    private Button btnLogout;
+    private Button btnProfileIrakasle;
 
-    private final ActivityResultLauncher<Intent> recreate =
+    private final ActivityResultLauncher<Intent> returnProfile =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+
             });
 
     @Override
@@ -64,6 +66,8 @@ public class IrakasleActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rv_ikasleList);
         et_filterZiklo = findViewById(R.id.et_filterZikloa);
         et_filterIkasturte = findViewById(R.id.et_filterIkasturtea);
+        btnLogout = findViewById(R.id.btnLogoutIrakasle);
+        btnProfileIrakasle = findViewById(R.id.btnProfileIrakasle);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new IkasleListAdapter(ikasleList, this);
@@ -89,6 +93,22 @@ public class IrakasleActivity extends AppCompatActivity {
             return false;
         });
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
+                finish(); // Finaliza la actividad correctamente
+            }
+        });
+
+        btnProfileIrakasle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IrakasleActivity.this, ProfileActivity.class);
+                returnProfile.launch(intent);
+            }
+        });
 
 
         /*--------------------------------------------*/
@@ -145,10 +165,10 @@ public class IrakasleActivity extends AppCompatActivity {
             MUsers usersDao = new MUsers("usersByTeacher", GlobalVariables.logedUser.getId(), new UsersByTeacherCallback() {
                 @Override
                 public void onUserByTeacher(ArrayList<Users> users) {
-                    Intent intent = new Intent(IrakasleActivity.this, IrakasleActivity.class);
-                    intent.putExtra("horariosIrakasle", Parcels.wrap(horariosIrakasle));
-                    intent.putExtra("ikasleList", Parcels.wrap(users));
-                    recreate.launch(intent);
+                    runOnUiThread(() -> {
+                        adapter.setIkasleList(users);
+                        adapter.notifyDataSetChanged();
+                    });
                 }
             });
 
@@ -170,16 +190,12 @@ public class IrakasleActivity extends AppCompatActivity {
             MUsers mUsers = new MUsers("usersFiltered", auxZiklo, auxIkasturte, new UsersFilteredCallback() {
                 @Override
                 public void onUsersFiltered(ArrayList<Users> users) {
-                    Log.d("usersFiltered", et_filterZiklo.getText().toString());
-                    Intent intent = new Intent(IrakasleActivity.this, IrakasleActivity.class);
-                    intent.putExtra("horariosIrakasle", Parcels.wrap(horariosIrakasle));
-                    intent.putExtra("ikasleList", Parcels.wrap(users));
-                    recreate.launch(intent);
+                    runOnUiThread(() -> {
+                        adapter.setIkasleList(users);
+                        adapter.notifyDataSetChanged();
+                    });
                 }
             });
-
-
-            //adapter.notifyDataSetChanged();
         }
     }
 }

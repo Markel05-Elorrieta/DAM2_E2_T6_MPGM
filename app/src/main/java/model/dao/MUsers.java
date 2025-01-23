@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import callbacks.ChangePwdCallback;
 import callbacks.GetTeachersCallback;
 import callbacks.LoginAndroidCallback;
+import callbacks.MatriculacionesUserCallback;
 import callbacks.ScheduleStudentCallback;
 import callbacks.UsersByTeacherCallback;
 import callbacks.UsersFilteredCallback;
 import model.Horarios;
+import model.Matriculaciones;
 import model.Users;
 
 public class MUsers extends Thread {
@@ -131,6 +133,18 @@ public class MUsers extends Thread {
             ois = new ObjectInputStream(socket.getInputStream());
             Log.d("loginProba", "toca leer");
             Users user = (Users) ois.readObject();
+
+            if (user.getTipos().getId() == 4) {
+                Log.d("loginProba", "llego matriculaciones");
+                MMatriculaciones mMatriculaciones = new MMatriculaciones("matriculacionesUser", user.getId(), new MatriculacionesUserCallback() {
+                    @Override
+                    public void onMatriculacionesUserCallback(Matriculaciones matriculaciones) {
+                        GlobalVariables.matriculacion = matriculaciones;
+                        Log.d("matriculaciones", matriculaciones.toString());
+                    }
+                });
+            }
+
             if (user != null) {
                 GlobalVariables.logedUser = user;
                 callback.onLoginAndroid(true);

@@ -42,9 +42,12 @@ public class IkasleActivity extends AppCompatActivity {
     private TableLayout tableLayoutIkasle;
     private TableLayout tableLayoutIrakasle;
     private Button btnFilter;
+    private Button btnLogout;
+    private Button btnProfileIkasle;
 
-    private final ActivityResultLauncher<Intent> recreate =
+    private final ActivityResultLauncher<Intent> returnProfile =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+
             });
 
     @Override
@@ -69,6 +72,8 @@ public class IkasleActivity extends AppCompatActivity {
         tableLayoutIrakasle = findViewById(R.id.tableLayoutIkasleIrakasle);
         Spinner s_irakasleak = findViewById(R.id.s_irakasle);
         btnFilter = (Button) findViewById(R.id.btn_filtratuHorario);
+        btnLogout = findViewById(R.id.btnLogoutIkasle);
+        btnProfileIkasle = findViewById(R.id.btnProfileIkasle);
 
         Metodos metodos = new Metodos();
         String[] opciones = metodos.getNames(irakasleak);
@@ -96,16 +101,33 @@ public class IkasleActivity extends AppCompatActivity {
                 MHorarios horariosDao = new MHorarios("scheduleTeacher", irakasleak.get(sPos).getId(), new ScheduleTeacherCallback() {
                     @Override
                     public void onScheduleTeacher(ArrayList<Horarios> newHorarioIrakasle) {
-                        intent.putExtra("sPos", sPos);
-                        intent.putExtra("horarioIrakasle", Parcels.wrap(newHorarioIrakasle));
-                        intent.putExtra("horariosIkasle", Parcels.wrap(horarioIkasle));
-                        intent.putExtra("irakasleak", Parcels.wrap(irakasleak));
-                        recreate.launch(intent);
+                        runOnUiThread(() -> {
+                            horarioIrakasle = newHorarioIrakasle; // Update the data
+                            refreshTableLayout(tableLayoutIrakasle, horarioIrakasle);
+                        });
                     }
                 });
             }
         });
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                runOnUiThread(() -> {
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish(); // Finaliza la actividad correctamente
+                });
+            }
+        });
+
+        btnProfileIkasle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IkasleActivity.this, ProfileActivity.class);
+                returnProfile.launch(intent);
+            }
+        });
 
         tableLayoutIkasle.addView(createHeaderRow());
         tableLayoutIrakasle.addView(createHeaderRow());
@@ -162,5 +184,16 @@ public class IkasleActivity extends AppCompatActivity {
             }
             layout.addView(tableRow);
         }
+    }
+
+    private void refreshTableLayout(TableLayout layout, ArrayList<Horarios> horarios) {
+        Metodos metodos = new Metodos();
+        String[][] newSchedule = metodos.generateArrayTable(horarios);
+
+        // Clear all rows except the header
+        layout.removeViews(1, layout.getChildCount() - 1);
+
+        // Add new rows dynamically
+        fillTable(layout, newSchedule);
     }
 }

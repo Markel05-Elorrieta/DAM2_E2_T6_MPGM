@@ -29,7 +29,7 @@ public class IkasleListAdapter extends RecyclerView.Adapter<IkasleListAdapter.Vi
         public ViewHolder(@NonNull View itemView) {
             super (itemView);
             image = itemView.findViewById(R.id.img_ikasle);
-            name = itemView.findViewById(R.id.tv_ikasle);
+            name = itemView.findViewById(R.id.tv_infoUser);
         }
     }
 

@@ -72,15 +72,15 @@
 
     <Spinner
         android:id="@+id/s_irakasle"
-        android:layout_width="171dp"
-        android:layout_height="30dp"
+        android:layout_width="172dp"
+        android:layout_height="33dp"
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.604"
+        app:layout_constraintHorizontal_bias="0.066"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.99" />
+        app:layout_constraintVertical_bias="0.977" />
 
     <TextView
         android:id="@+id/lbl_forgotPassword"
@@ -109,15 +109,15 @@
 
     <Button
         android:id="@+id/btn_changeLanguage"
-        android:layout_width="72dp"
-        android:layout_height="40dp"
-        android:text="go"
+        android:layout_width="114dp"
+        android:layout_height="38dp"
+        android:text="Change"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.955"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
+        app:layout_constraintStart_toEndOf="@+id/s_irakasle"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.974" />
+        app:layout_constraintVertical_bias="0.965" />
 
     <ImageView
         android:id="@+id/gifLogo"

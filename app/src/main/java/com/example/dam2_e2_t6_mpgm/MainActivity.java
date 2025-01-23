@@ -59,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final ActivityResultLauncher<Intent> logout =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-
+                GlobalVariables.logedUser = null;
+                txt_user.setText("");
+                txt_password.setText("");
             });
 
     @Override
@@ -175,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLoginAndroid(boolean isLogin) {
 
-                Log.d("loginProba", isLogin + "");
                 if (isLogin) {
                     if (GlobalVariables.logedUser.getTipos().getId() == 3) {
 

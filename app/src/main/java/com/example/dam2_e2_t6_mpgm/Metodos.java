@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import callbacks.ChangePwdCallback;
 import model.Horarios;
+import model.Matriculaciones;
 import model.Users;
 import model.dao.MUsers;
 
@@ -132,5 +133,22 @@ public class Metodos {
         }
 
         return names;
+    }
+
+    public ArrayList<String> generateInfoProfile(Users user, Matriculaciones matriculaciones) {
+        ArrayList<String> info = new ArrayList<>();
+            info.add("DNI: " + user.getDni());
+            info.add("Nombre: " + user.getNombre());
+            info.add("Apellidos: " + user.getApellidos());
+            info.add("Correo: " + user.getEmail());
+            info.add("Direccion: " + user.getDireccion());
+            info.add("Telefono: " + user.getTelefono1());
+            info.add("Telefono 2: " + user.getTelefono2());
+
+            if (user.getTipos().getId() == 4) {
+                info.add("Ziklo: " + matriculaciones.getCiclos().getNombre());
+                info.add("Ikasturte: " + matriculaciones.getId().getCurso());
+            }
+        return info;
     }
 }
