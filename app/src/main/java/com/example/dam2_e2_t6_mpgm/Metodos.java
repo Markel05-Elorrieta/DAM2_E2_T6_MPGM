@@ -2,14 +2,21 @@ package com.example.dam2_e2_t6_mpgm;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -150,5 +157,12 @@ public class Metodos {
                 info.add("Ikasturte: " + matriculaciones.getId().getCurso());
             }
         return info;
+    }
+
+    public byte[] imageViewToByte(ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
     }
 }
