@@ -42,8 +42,14 @@ public class IrakasleActivity extends AppCompatActivity {
     private EditText et_filterIkasturte;
     private Button btnLogout;
     private Button btnProfileIrakasle;
+    private Button btnBilerakIkusiIrakasle;
 
     private final ActivityResultLauncher<Intent> returnProfile =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+
+            });
+
+    private final ActivityResultLauncher<Intent> returnFromBilerak =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 
             });
@@ -68,6 +74,7 @@ public class IrakasleActivity extends AppCompatActivity {
         et_filterIkasturte = findViewById(R.id.et_filterIkasturtea);
         btnLogout = findViewById(R.id.btnLogoutIrakasle);
         btnProfileIrakasle = findViewById(R.id.btnProfileIrakasle);
+        btnBilerakIkusiIrakasle = findViewById(R.id.btnBilerakIkusiIrakasle);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new IkasleListAdapter(ikasleList, this);
@@ -107,6 +114,14 @@ public class IrakasleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(IrakasleActivity.this, ProfileActivity.class);
                 returnProfile.launch(intent);
+            }
+        });
+
+        btnBilerakIkusiIrakasle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IrakasleActivity.this, BilerakActivity.class);
+                returnFromBilerak.launch(intent);
             }
         });
 

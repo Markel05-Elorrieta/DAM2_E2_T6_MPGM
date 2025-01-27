@@ -44,8 +44,14 @@ public class IkasleActivity extends AppCompatActivity {
     private Button btnFilter;
     private Button btnLogout;
     private Button btnProfileIkasle;
+    private Button btnBilerakIkusiIkasle;
 
     private final ActivityResultLauncher<Intent> returnProfile =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+
+            });
+
+    private final ActivityResultLauncher<Intent> returnFromBilerak =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 
             });
@@ -74,6 +80,7 @@ public class IkasleActivity extends AppCompatActivity {
         btnFilter = (Button) findViewById(R.id.btn_filtratuHorario);
         btnLogout = findViewById(R.id.btnLogoutIkasle);
         btnProfileIkasle = findViewById(R.id.btnProfileIkasle);
+        btnBilerakIkusiIkasle = findViewById(R.id.btnBilerakIkusiIkasle);
 
         Metodos metodos = new Metodos();
         String[] opciones = metodos.getNames(irakasleak);
@@ -126,6 +133,14 @@ public class IkasleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(IkasleActivity.this, ProfileActivity.class);
                 returnProfile.launch(intent);
+            }
+        });
+
+        btnBilerakIkusiIkasle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IkasleActivity.this, BilerakActivity.class);
+                returnFromBilerak.launch(intent);
             }
         });
 
