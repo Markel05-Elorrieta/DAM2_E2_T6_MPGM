@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DAM2_E2_T6_MPGM</string>
+    <string name="user">Erabiltzailea</string>
+    <string name="password">Pasahitza</string>
+    <string name="pasahitzaAhaztuta">Pasahitza ahaztu al duzu?</string>
+    <string name="login">Saioa hasi</string>
+    <string-array name="languages">
+        <item>Euskara</item>
+        <item>Ingelera</item>
+        <item>Gaztelania</item>
+    </string-array>
+</resources>
