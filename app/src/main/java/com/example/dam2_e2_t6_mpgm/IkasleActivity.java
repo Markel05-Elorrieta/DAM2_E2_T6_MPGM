@@ -152,9 +152,8 @@ public class IkasleActivity extends AppCompatActivity {
                             @Override
                             public void onGetIkastetxeakCallback(ArrayList<Ikastetxeak> ikastetxeak) {
                                 Log.d("ikastetxeak", ikastetxeak.toString());
-
                                 Intent intent = new Intent(IkasleActivity.this, BilerakIkasleActivity.class);
-                                intent.putExtra("ikastetxeak", Parcels.wrap(ikastetxeak));
+                                GlobalVariables.ikastetxeak = ikastetxeak;
                                 intent.putExtra("reunionesIkasle", Parcels.wrap(reuniones));
                                 returnFromBilerak.launch(intent);
                             }

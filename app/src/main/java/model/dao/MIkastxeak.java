@@ -51,6 +51,8 @@ public class MIkastxeak extends Thread{
             ois = new ObjectInputStream(socket.getInputStream());
             ArrayList<Ikastetxeak> ikastetxeak = (ArrayList<Ikastetxeak>) ois.readObject();
 
+            ikastetxeak.addAll(ikastetxeak);
+
             callback.onGetIkastetxeakCallback(ikastetxeak);
         } catch (IOException e) {
             Log.d("loginProba", "error");
