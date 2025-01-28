@@ -1,6 +1,5 @@
 package com.example.dam2_e2_t6_mpgm;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,10 +27,16 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import callbacks.BilerakByStudentCallback;
+import callbacks.GetIkastetxeakCallback;
 import callbacks.ScheduleTeacherCallback;
 import model.Horarios;
+import model.Ikastetxeak;
+import model.Reuniones;
 import model.Users;
 import model.dao.MHorarios;
+import model.dao.MIkastxeak;
+import model.dao.MReuniones;
 
 public class IkasleActivity extends AppCompatActivity {
 
@@ -139,8 +144,27 @@ public class IkasleActivity extends AppCompatActivity {
         btnBilerakIkusiIkasle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(IkasleActivity.this, BilerakActivity.class);
-                returnFromBilerak.launch(intent);
+                MReuniones mReuniones = new MReuniones("bilerakByStudent", GlobalVariables.logedUser.getId(), new BilerakByStudentCallback() {
+                    @Override
+                    public void onBilerakByStudentCallback(ArrayList<Reuniones> reuniones) {
+
+                        MIkastxeak mIkastxeak = new MIkastxeak("getIkastetxeak", new GetIkastetxeakCallback() {
+                            @Override
+                            public void onGetIkastetxeakCallback(ArrayList<Ikastetxeak> ikastetxeak) {
+                                Log.d("ikastetxeak", ikastetxeak.toString());
+
+                                Intent intent = new Intent(IkasleActivity.this, BilerakIkasleActivity.class);
+                                intent.putExtra("ikastetxeak", Parcels.wrap(ikastetxeak));
+                                intent.putExtra("reunionesIkasle", Parcels.wrap(reuniones));
+                                returnFromBilerak.launch(intent);
+                            }
+                        });
+
+
+                    }
+                });
+
+
             }
         });
 

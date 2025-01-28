@@ -120,7 +120,7 @@ public class IrakasleActivity extends AppCompatActivity {
         btnBilerakIkusiIrakasle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(IrakasleActivity.this, BilerakActivity.class);
+                Intent intent = new Intent(IrakasleActivity.this, BilerakIrakasleActivity.class);
                 returnFromBilerak.launch(intent);
             }
         });
