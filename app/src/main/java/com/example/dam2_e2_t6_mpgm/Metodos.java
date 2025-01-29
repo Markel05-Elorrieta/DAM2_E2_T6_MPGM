@@ -135,9 +135,7 @@ public class Metodos {
                     break;
             }
 
-            Log.d("loginProba", x + " " + y);
             schedule[x][y] = h.getModulos().getNombre();
-            Log.d("cords", schedule[x][y] + " " + x + " " + y);
         }
 
         return schedule;
@@ -239,7 +237,61 @@ public class Metodos {
         return schedule;
     }
 
-    public static boolean isInCurrentWeek(Timestamp timestamp) {
+    public Reuniones[][] generateArrayReunionesTable(ArrayList<Reuniones> reuniones) {
+        Metodos metodos = new Metodos();
+
+        Reuniones[][] reunionesArray = new Reuniones[5][5];
+        int x = -1;
+        int y = -1;
+
+        for (Reuniones r : reuniones) {
+            if (!metodos.isInCurrentWeek(r.getFecha())) {
+                break;
+            }
+
+            switch (r.getFecha().getDay()) {
+                case 1:
+                    x = 0;
+                    break;
+                case 2:
+                    x = 1;
+                    break;
+                case 3:
+                    x = 2;
+                    break;
+                case 4:
+                    x = 3;
+                    break;
+                case 5:
+                    x = 4;
+                    break;
+            }
+
+            switch (r.getFecha().getHours() + 1) {
+
+                case 8:
+                    y = 0;
+                    break;
+                case 9:
+                    y = 1;
+                    break;
+                case 10:
+                    y = 2;
+                    break;
+                case 11:
+                    y = 3;
+                    break;
+                case 12:
+                    y = 4;
+                    break;
+            }
+
+            reunionesArray[x][y] = r;
+        }
+        return reunionesArray;
+    }
+
+    public boolean isInCurrentWeek(Timestamp timestamp) {
         Calendar timestampCalendar = Calendar.getInstance();
         timestampCalendar.setTime(timestamp);
 

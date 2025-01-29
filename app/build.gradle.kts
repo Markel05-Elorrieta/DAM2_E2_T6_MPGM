@@ -45,4 +45,7 @@ dependencies {
     annotationProcessor("org.parceler:parceler:1.1.13")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation("org.mindrot:jbcrypt:0.4")
+    implementation(libs.osmdroid)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 }

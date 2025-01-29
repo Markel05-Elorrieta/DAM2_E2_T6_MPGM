@@ -43,7 +43,7 @@ import model.dao.MUsers;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LocalDBDao localDBDao = new LocalDBDao(this);
+    private LocalDBDao localDBDao;
     private String lan = "eu";
 
     private ImageView img_logo;
@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_login;
     private Spinner hizkuntza;
     private Button btn_changeLanguage;
+
+    /*-----------------LAUNCHER FUNCTIONS------------------*/
 
     private final ActivityResultLauncher<Intent> logout =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -75,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        /*-----------------GET PARCEL ELEMENTS------------------*/
+
+        localDBDao = new LocalDBDao(this);
+
+        /*-----------------SET VIEW ELEMENTS------------------*/
+
         img_logo = (ImageView) findViewById(R.id.gifLogo);
         lbl_user = (TextView) findViewById(R.id.lbl_user);
         lbl_password = (TextView) findViewById(R.id.lbl_password);
@@ -86,19 +94,20 @@ public class MainActivity extends AppCompatActivity {
         hizkuntza = (Spinner) findViewById(R.id.s_irakasle);
         btn_changeLanguage = (Button) findViewById(R.id.btn_changeLanguage);
 
+        /*-----------------FILL VIEW ELEMENTS------------------*/
+        // SET SPINNER
         String[] opciones = getResources().getStringArray(R.array.languages);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hizkuntza.setAdapter(adapter);
 
-        /* GIF NO WORK*/
-
+        // SET GIF
         Glide.with(this)
                 .asGif()
                 .load(R.drawable.elorrieta_logo)// Cambia "tu_gif" por el nombre del archivo GIF
                 .into(img_logo);
 
-
+        // SET LENGUAJE
         try {
             String kode = localDBDao.getLanguage();
             if (kode.equals("eu")) {
@@ -109,20 +118,13 @@ public class MainActivity extends AppCompatActivity {
                 hizkuntza.setSelection(2);
             }
             setLocale(kode);
-        }catch (Exception e){
+        } catch (Exception e) {
             localDBDao.addLanguage("eu");
             setLocale("eu");
         }
 
-        lbl_clickHere.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Metodos m = new Metodos();
-                m.pedirCorreo(MainActivity.this);
-                Toast.makeText(MainActivity.this, "pide correus", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        /*-----------------LISTENERS------------------*/
+        // Enter in the password to go next
         txt_password.setOnEditorActionListener((textView, actionId, event) -> {
             if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_DONE ||
                     event != null && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER &&
@@ -133,6 +135,17 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+        // Generate new password (email)
+        lbl_clickHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Metodos m = new Metodos();
+                m.pedirCorreo(MainActivity.this);
+                Toast.makeText(MainActivity.this, "pide correus", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Login
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Prepare new lenguaje
         hizkuntza.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -156,12 +170,14 @@ public class MainActivity extends AppCompatActivity {
                     default:
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
 
+        // Set the new lenguaje
         btn_changeLanguage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,8 +185,9 @@ public class MainActivity extends AppCompatActivity {
                 setLocale(localDBDao.getLanguage());
             }
         });
-
     }
+
+    /*-----------------USEFULL METHODS------------------*/
 
     private void doLogin(){
         MUsers usersDao = new MUsers("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {

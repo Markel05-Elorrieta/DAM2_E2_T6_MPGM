@@ -36,11 +36,13 @@ public class BilerakIkasleActivity extends AppCompatActivity {
     private ArrayList<Ikastetxeak> ikastetxeak;
     private ArrayList<Horarios> horariosIkasle;
 
+    private Reuniones[][] reunionesTable;
+
     private TableLayout tableLayoutIkasleBilerak;
     private Button btnAtzeraIkasle;
     private Button btnCreateReunion;
 
-
+    /*-----------------LAUNCHER FUNCTIONS------------------*/
     private final ActivityResultLauncher<Intent> finishCreation =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
@@ -63,30 +65,36 @@ public class BilerakIkasleActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        /*----------------- INSTANCES ------------------*/
         metodos = new Metodos();
 
+        /*-----------------GET PARCEL ELEMENTS------------------*/
         horariosIkasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIkasle"));
         reunionesIkasle = Parcels.unwrap(getIntent().getParcelableExtra("reunionesIkasle"));
 
+        /*-----------------SET VIEW ELEMENTS------------------*/
         tableLayoutIkasleBilerak = findViewById(R.id.tableLayoutIkasleBilerak);
+
         btnAtzeraIkasle = findViewById(R.id.btnAtzeraIkasle);
         btnCreateReunion = findViewById(R.id.btnCreateReunion);
 
+        /*-----------------FILL VIEW ELEMENTS------------------*/
         tableLayoutIkasleBilerak.addView(metodos.createHeaderRow(this));
         String[][] schedule = metodos.generateArrayTableWReuniones(horariosIkasle, reunionesIkasle);
-
-        Log.d("holaaa","📅 Weekly Schedule:");
-        for (int i = 0; i < schedule.length; i++) {
-            Log.d("holaaa","Day " + i + ": ");
-            for (int j = 0; j < schedule[i].length; j++) {
-                Log.d("holaaa",(schedule[i][j] != null ? schedule[i][j] : "FREE") + "\t");
-            }
-            Log.d("holaaa","\n");
-        }
-
+        reunionesTable = metodos.generateArrayReunionesTable(reunionesIkasle);
         fillTable(tableLayoutIkasleBilerak, schedule);
 
-
+        for (int i = 0; i < reunionesTable.length; i++) {
+            for (int j = 0; j < reunionesTable[i].length; j++) {
+                if (reunionesTable[i][j] == null) {
+                    Log.d("pruebaReuniones","Elemento en [" + i + "][" + j + "] es null");
+                } else {
+                    Log.d("pruebaReuniones","Elemento en [" + i + "][" + j + "] = " + reunionesTable[i][j]);
+                }
+            }
+        }
+        /*-----------------LISTENERS------------------*/
         btnCreateReunion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,9 +112,12 @@ public class BilerakIkasleActivity extends AppCompatActivity {
     }
 
     private void fillTable(TableLayout layout, String[][] schedule){
-        for (int i = 0; i < schedule.length; i++) {
+        int i;
+        int j;
+
+        for (i = 0; i < schedule.length; i++) {
             TableRow tableRow = new TableRow(this);
-            for (int j = 0; j < schedule[i].length; j++) {
+            for (j = 0; j < schedule[i].length; j++) {
                 final String cellText = schedule[j][i]; // Save cell text for use in listener
                 TextView cellTextView = new TextView(this);
                 cellTextView.setText(cellText);
@@ -115,14 +126,16 @@ public class BilerakIkasleActivity extends AppCompatActivity {
                 cellTextView.setBackgroundColor(Color.parseColor("#F5F5F5"));
                 cellTextView.setTextColor(Color.BLACK);
 
+                final int rowIndex = i;  // Capture row index
+                final int colIndex = j;
                 // Set a click listener for each cell
                 cellTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (!cellText.isEmpty()) {
-                            Toast.makeText(BilerakIkasleActivity.this, "Clicked: " + cellText, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(BilerakIkasleActivity.this, "Empty cell clicked", Toast.LENGTH_SHORT).show();
+                        if (reunionesTable[colIndex][rowIndex] != null) {
+                            Intent intent = new Intent(BilerakIkasleActivity.this, BilerakInfoActivity.class);
+                            intent.putExtra("reunion", Parcels.wrap(reunionesTable[colIndex][rowIndex]));
+                            finishDetails.launch(intent);
                         }
                     }
                 });
@@ -131,5 +144,9 @@ public class BilerakIkasleActivity extends AppCompatActivity {
             }
             layout.addView(tableRow);
         }
+
+        i = 0;
+        j = 0;
+
     }
 }

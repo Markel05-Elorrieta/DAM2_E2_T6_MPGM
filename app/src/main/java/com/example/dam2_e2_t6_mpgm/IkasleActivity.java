@@ -39,7 +39,7 @@ import model.dao.MIkastxeak;
 import model.dao.MReuniones;
 
 public class IkasleActivity extends AppCompatActivity {
-    Metodos metodos = new Metodos();
+    private Metodos metodos;
 
     private ArrayList<Horarios> horarioIkasle;
     private ArrayList<Users> irakasleak;
@@ -51,6 +51,8 @@ public class IkasleActivity extends AppCompatActivity {
     private Button btnLogout;
     private Button btnProfileIkasle;
     private Button btnBilerakIkusiIkasle;
+
+    /*-----------------LAUNCHER FUNCTIONS------------------*/
 
     private final ActivityResultLauncher<Intent> returnProfile =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -72,30 +74,49 @@ public class IkasleActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        /*----------------- INSTANCES ------------------*/
+
         metodos = new Metodos();
 
+        /*-----------------GET PARCEL ELEMENTS------------------*/
+
         horarioIkasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIkasle"));
+
         irakasleak = Parcels.unwrap(getIntent().getParcelableExtra("irakasleak"));
         horarioIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("horarioIrakasle"));
         sPos = getIntent().getIntExtra("sPos", 0);
 
-        Log.d("horarioIkasle", horarioIkasle.toString());
-
+        /*-----------------SET VIEW ELEMENTS------------------*/
         tableLayoutIkasle = findViewById(R.id.tableLayoutIkasle);
-        tableLayoutIrakasle = findViewById(R.id.tableLayoutIkasleIrakasle);
+
         Spinner s_irakasleak = findViewById(R.id.s_irakasle);
         btnFilter = (Button) findViewById(R.id.btn_filtratuHorario);
+        tableLayoutIrakasle = findViewById(R.id.tableLayoutIkasleIrakasle);
+
         btnLogout = findViewById(R.id.btnLogoutIkasle);
         btnProfileIkasle = findViewById(R.id.btnProfileIkasle);
         btnBilerakIkusiIkasle = findViewById(R.id.btnBilerakIkusiIkasle);
 
-
+        /*-----------------FILL VIEW ELEMENTS------------------*/
+        // Spinner
         String[] opciones = metodos.getNames(irakasleak);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s_irakasleak.setAdapter(adapter);
         s_irakasleak.setSelection(sPos);
 
+        // Table Ikasle
+        tableLayoutIkasle.addView(metodos.createHeaderRow(this));
+        String[][] scheduleIkasle = metodos.generateArrayTable(horarioIkasle);
+        fillTable(tableLayoutIkasle, scheduleIkasle);
+
+        // Table Irakasle
+        tableLayoutIrakasle.addView(metodos.createHeaderRow(this));
+        String[][] scheduleIrakasle = metodos.generateArrayTable(horarioIrakasle);
+        fillTable(tableLayoutIrakasle, scheduleIrakasle);
+
+        /*-----------------LISTENERS------------------*/
         s_irakasleak.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -104,7 +125,7 @@ public class IkasleActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                 }
+            }
         });
 
         btnFilter.setOnClickListener(new View.OnClickListener() {
@@ -169,18 +190,9 @@ public class IkasleActivity extends AppCompatActivity {
 
             }
         });
-
-        tableLayoutIkasle.addView(metodos.createHeaderRow(this));
-        tableLayoutIrakasle.addView(metodos.createHeaderRow(this));
-
-        String[][] scheduleIkasle = metodos.generateArrayTable(horarioIkasle);
-        String[][] scheduleIrakasle = metodos.generateArrayTable(horarioIrakasle);
-
-        fillTable(tableLayoutIkasle, scheduleIkasle);
-        fillTable(tableLayoutIrakasle, scheduleIrakasle);
-        // Add rows dynamically
-
     }
+
+    /*-----------------USEFULL METHODS------------------*/
 
     private void fillTable(TableLayout layout, String[][] schedule){
         for (int i = 0; i < schedule.length; i++) {
@@ -193,19 +205,6 @@ public class IkasleActivity extends AppCompatActivity {
                 cellTextView.setPadding(16, 16, 16, 16);
                 cellTextView.setBackgroundColor(Color.parseColor("#F5F5F5"));
                 cellTextView.setTextColor(Color.BLACK);
-
-                // Set a click listener for each cell
-                cellTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!cellText.isEmpty()) {
-                            Toast.makeText(IkasleActivity.this, "Clicked: " + cellText, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(IkasleActivity.this, "Empty cell clicked", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
                 tableRow.addView(cellTextView);
             }
             layout.addView(tableRow);
@@ -214,11 +213,7 @@ public class IkasleActivity extends AppCompatActivity {
 
     private void refreshTableLayout(TableLayout layout, ArrayList<Horarios> horarios) {
         String[][] newSchedule = metodos.generateArrayTable(horarios);
-
-        // Clear all rows except the header
         layout.removeViews(1, layout.getChildCount() - 1);
-
-        // Add new rows dynamically
         fillTable(layout, newSchedule);
     }
 }
