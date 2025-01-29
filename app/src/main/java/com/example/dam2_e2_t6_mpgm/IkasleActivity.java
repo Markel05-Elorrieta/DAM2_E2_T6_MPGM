@@ -39,6 +39,7 @@ import model.dao.MIkastxeak;
 import model.dao.MReuniones;
 
 public class IkasleActivity extends AppCompatActivity {
+    Metodos metodos = new Metodos();
 
     private ArrayList<Horarios> horarioIkasle;
     private ArrayList<Users> irakasleak;
@@ -71,6 +72,7 @@ public class IkasleActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        metodos = new Metodos();
 
         horarioIkasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIkasle"));
         irakasleak = Parcels.unwrap(getIntent().getParcelableExtra("irakasleak"));
@@ -87,7 +89,7 @@ public class IkasleActivity extends AppCompatActivity {
         btnProfileIkasle = findViewById(R.id.btnProfileIkasle);
         btnBilerakIkusiIkasle = findViewById(R.id.btnBilerakIkusiIkasle);
 
-        Metodos metodos = new Metodos();
+
         String[] opciones = metodos.getNames(irakasleak);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -153,6 +155,7 @@ public class IkasleActivity extends AppCompatActivity {
                             public void onGetIkastetxeakCallback(ArrayList<Ikastetxeak> ikastetxeak) {
                                 Log.d("ikastetxeak", ikastetxeak.toString());
                                 Intent intent = new Intent(IkasleActivity.this, BilerakIkasleActivity.class);
+                                intent.putExtra("horariosIkasle", Parcels.wrap(horarioIkasle));
                                 GlobalVariables.ikastetxeak = ikastetxeak;
                                 intent.putExtra("reunionesIkasle", Parcels.wrap(reuniones));
                                 returnFromBilerak.launch(intent);
@@ -167,8 +170,8 @@ public class IkasleActivity extends AppCompatActivity {
             }
         });
 
-        tableLayoutIkasle.addView(createHeaderRow());
-        tableLayoutIrakasle.addView(createHeaderRow());
+        tableLayoutIkasle.addView(metodos.createHeaderRow(this));
+        tableLayoutIrakasle.addView(metodos.createHeaderRow(this));
 
         String[][] scheduleIkasle = metodos.generateArrayTable(horarioIkasle);
         String[][] scheduleIrakasle = metodos.generateArrayTable(horarioIrakasle);
@@ -179,26 +182,11 @@ public class IkasleActivity extends AppCompatActivity {
 
     }
 
-    private TableRow createHeaderRow() {
-        TableRow headerRow = new TableRow(this);
-        String[] headersName = {"Astelehena", "Asteartea", "Asteazkena", "Osteguna", "Ostirala"};
-        for (String header : headersName) {
-            TextView headerTextView = new TextView(this);
-            headerTextView.setText(header);
-            headerTextView.setGravity(Gravity.CENTER);
-            headerTextView.setTextColor(Color.WHITE);
-            headerTextView.setPadding(16, 16, 16, 16);
-            headerRow.addView(headerTextView);
-        }
-        headerRow.setBackgroundColor(Color.parseColor("#007DC3")); // Blue header background
-        return headerRow;
-    }
-
     private void fillTable(TableLayout layout, String[][] schedule){
         for (int i = 0; i < schedule.length; i++) {
             TableRow tableRow = new TableRow(this);
             for (int j = 0; j < schedule[i].length; j++) {
-                final String cellText = schedule[i][j]; // Save cell text for use in listener
+                final String cellText = schedule[j][i]; // Save cell text for use in listener
                 TextView cellTextView = new TextView(this);
                 cellTextView.setText(cellText);
                 cellTextView.setGravity(Gravity.CENTER);
@@ -225,7 +213,6 @@ public class IkasleActivity extends AppCompatActivity {
     }
 
     private void refreshTableLayout(TableLayout layout, ArrayList<Horarios> horarios) {
-        Metodos metodos = new Metodos();
         String[][] newSchedule = metodos.generateArrayTable(horarios);
 
         // Clear all rows except the header

@@ -199,11 +199,13 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     } else {
+                        Log.d("login", "Ikasle");
                         Intent intent = new Intent(MainActivity.this, IkasleActivity.class);
 
                         MUsers usersDao = new MUsers("scheduleStudent", GlobalVariables.logedUser.getId(), new ScheduleStudentCallback() {
                             @Override
                             public void onScheduleStudent(ArrayList<Horarios> horario) {
+                                Log.d("horarioIkasle", horario + "");
                                 intent.putExtra("horariosIkasle", Parcels.wrap(horario));
 
                                 MUsers usersDao1 = new MUsers("getTeachers", new GetTeachersCallback() {
