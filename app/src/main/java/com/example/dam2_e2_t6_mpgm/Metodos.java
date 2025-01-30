@@ -34,6 +34,7 @@ import java.util.Calendar;
 
 import callbacks.ChangePwdCallback;
 import model.Horarios;
+import model.Ikastetxeak;
 import model.Matriculaciones;
 import model.Reuniones;
 import model.Users;
@@ -189,49 +190,46 @@ public class Metodos {
         }
 
         for (Reuniones r : reuniones) {
+            Log.d("reunionesRecogidasDeServer", r.getFecha().toString());
+            if(isInCurrentWeek(r.getFecha())) {
+                switch (r.getFecha().getDay()){
+                    case 1:
+                        x = 0;
+                        break;
+                    case 2:
+                        x = 1;
+                        break;
+                    case 3:
+                        x = 2;
+                        break;
+                    case 4:
+                        x = 3;
+                        break;
+                    case 5:
+                        x = 4;
+                        break;
+                }
+                switch (r.getFecha().getHours()+1){
 
-            if(!isInCurrentWeek(r.getFecha())) {
-                break;
+                    case 8:
+                        y = 0;
+                        break;
+                    case 9:
+                        y = 1;
+                        break;
+                    case 10:
+                        y = 2;
+                        break;
+                    case 11:
+                        y = 3;
+                        break;
+                    case 12:
+                        y = 4;
+                        break;
+                }
+
+                schedule[x][y] = schedule[x][y] + "\n" + r.getTitulo();
             }
-
-            switch (r.getFecha().getDay()){
-                case 1:
-                    x = 0;
-                    break;
-                case 2:
-                    x = 1;
-                    break;
-                case 3:
-                    x = 2;
-                    break;
-                case 4:
-                    x = 3;
-                    break;
-                case 5:
-                    x = 4;
-                    break;
-            }
-
-            switch (r.getFecha().getHours()+1){
-
-                case 8:
-                    y = 0;
-                    break;
-                case 9:
-                    y = 1;
-                    break;
-                case 10:
-                    y = 2;
-                    break;
-                case 11:
-                    y = 3;
-                    break;
-                case 12:
-                    y = 4;
-                    break;
-            }
-
-            schedule[x][y] = schedule[x][y] + "\n" + r.getTitulo();
         }
 
         return schedule;
@@ -245,48 +243,45 @@ public class Metodos {
         int y = -1;
 
         for (Reuniones r : reuniones) {
-            if (!metodos.isInCurrentWeek(r.getFecha())) {
-                break;
+            if (metodos.isInCurrentWeek(r.getFecha())) {
+                switch (r.getFecha().getDay()) {
+                    case 1:
+                        x = 0;
+                        break;
+                    case 2:
+                        x = 1;
+                        break;
+                    case 3:
+                        x = 2;
+                        break;
+                    case 4:
+                        x = 3;
+                        break;
+                    case 5:
+                        x = 4;
+                        break;
+                }
+
+                switch (r.getFecha().getHours() + 1) {
+
+                    case 8:
+                        y = 0;
+                        break;
+                    case 9:
+                        y = 1;
+                        break;
+                    case 10:
+                        y = 2;
+                        break;
+                    case 11:
+                        y = 3;
+                        break;
+                    case 12:
+                        y = 4;
+                        break;
+                }
+                reunionesArray[x][y] = r;
             }
-
-            switch (r.getFecha().getDay()) {
-                case 1:
-                    x = 0;
-                    break;
-                case 2:
-                    x = 1;
-                    break;
-                case 3:
-                    x = 2;
-                    break;
-                case 4:
-                    x = 3;
-                    break;
-                case 5:
-                    x = 4;
-                    break;
-            }
-
-            switch (r.getFecha().getHours() + 1) {
-
-                case 8:
-                    y = 0;
-                    break;
-                case 9:
-                    y = 1;
-                    break;
-                case 10:
-                    y = 2;
-                    break;
-                case 11:
-                    y = 3;
-                    break;
-                case 12:
-                    y = 4;
-                    break;
-            }
-
-            reunionesArray[x][y] = r;
         }
         return reunionesArray;
     }
@@ -357,5 +352,21 @@ public class Metodos {
         }
         headerRow.setBackgroundColor(Color.parseColor("#007DC3")); // Blue header background
         return headerRow;
+    }
+
+    public String[] arrayListToArrayIkastetxeak(ArrayList<Ikastetxeak> ikastetxeak) {
+        String[] ikastetxeakNames = new String[ikastetxeak.size()];
+        for (int i = 0; i < ikastetxeak.size(); i++) {
+            ikastetxeakNames[i] = ikastetxeak.get(i).getNOM();
+        }
+        return ikastetxeakNames;
+    }
+
+    public String[] arrayListToArrayUser(ArrayList<Users> users) {
+        String[] userNames = new String[users.size()];
+        for (int i = 0; i < users.size(); i++) {
+            userNames[i] = users.get(i).getNombre() + " " + users.get(i).getApellidos();
+        }
+        return userNames;
     }
 }

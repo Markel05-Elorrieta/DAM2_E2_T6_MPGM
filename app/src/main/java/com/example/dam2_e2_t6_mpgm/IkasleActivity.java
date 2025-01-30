@@ -179,6 +179,7 @@ public class IkasleActivity extends AppCompatActivity {
                                 intent.putExtra("horariosIkasle", Parcels.wrap(horarioIkasle));
                                 GlobalVariables.ikastetxeak = ikastetxeak;
                                 intent.putExtra("reunionesIkasle", Parcels.wrap(reuniones));
+                                intent.putExtra("irakasleak", Parcels.wrap(irakasleak));
                                 returnFromBilerak.launch(intent);
                             }
                         });

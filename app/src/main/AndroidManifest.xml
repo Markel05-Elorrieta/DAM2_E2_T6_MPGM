@@ -25,6 +25,12 @@
         android:theme="@style/Theme.DAM2_E2_T6_MPGM"
         tools:targetApi="31">
         <activity
+            android:name=".BilerakUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BilerakUser"
+            android:exported="false" />
+        <activity
             android:name=".BilerakInfoActivity"
             android:exported="false" />
         <activity

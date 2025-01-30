@@ -3,6 +3,7 @@ package com.example.dam2_e2_t6_mpgm;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -26,10 +27,17 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+import callbacks.BilerakByStudentCallback;
+import callbacks.BilerakByTeacherCallback;
+import callbacks.GetIkastetxeakCallback;
 import callbacks.UsersByTeacherCallback;
 import callbacks.UsersFilteredCallback;
 import model.Horarios;
+import model.Ikastetxeak;
+import model.Reuniones;
 import model.Users;
+import model.dao.MIkastxeak;
+import model.dao.MReuniones;
 import model.dao.MUsers;
 
 public class IrakasleActivity extends AppCompatActivity {
@@ -43,6 +51,7 @@ public class IrakasleActivity extends AppCompatActivity {
     private Button btnLogout;
     private Button btnProfileIrakasle;
     private Button btnBilerakIkusiIrakasle;
+    private Button btnCreateReunionSortu;
 
     private final ActivityResultLauncher<Intent> returnProfile =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -72,6 +81,7 @@ public class IrakasleActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rv_ikasleList);
         et_filterZiklo = findViewById(R.id.et_filterZikloa);
         et_filterIkasturte = findViewById(R.id.et_filterIkasturtea);
+        btnCreateReunionSortu = findViewById(R.id.btnCreateReunionSortu);
         btnLogout = findViewById(R.id.btnLogoutIrakasle);
         btnProfileIrakasle = findViewById(R.id.btnProfileIrakasle);
         btnBilerakIkusiIrakasle = findViewById(R.id.btnBilerakIkusiIrakasle);
@@ -120,8 +130,27 @@ public class IrakasleActivity extends AppCompatActivity {
         btnBilerakIkusiIrakasle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(IrakasleActivity.this, BilerakIrakasleActivity.class);
-                returnFromBilerak.launch(intent);
+                MReuniones mReuniones = new MReuniones("bilerakByTeacher", GlobalVariables.logedUser.getId(), new BilerakByTeacherCallback() {
+                    @Override
+                    public void onBilerakByTeacherCallback(ArrayList<Reuniones> reuniones) {
+
+                        MIkastxeak mIkastxeak = new MIkastxeak("getIkastetxeak", new GetIkastetxeakCallback() {
+                            @Override
+                            public void onGetIkastetxeakCallback(ArrayList<Ikastetxeak> ikastetxeak) {
+                                Intent intent = new Intent(IrakasleActivity.this, BilerakIrakasleActivity.class);
+                                intent.putExtra("horariosIrakasle", Parcels.wrap(horariosIrakasle));
+                                GlobalVariables.ikastetxeak = ikastetxeak;
+                                intent.putExtra("reunionesIrakasle", Parcels.wrap(reuniones));
+                                intent.putExtra("ikasleak", Parcels.wrap(ikasleList));
+                                returnFromBilerak.launch(intent);
+                            }
+                        });
+
+
+                    }
+                });
+
+
             }
         });
 

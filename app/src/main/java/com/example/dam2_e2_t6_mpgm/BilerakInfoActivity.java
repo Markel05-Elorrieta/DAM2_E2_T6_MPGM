@@ -1,5 +1,6 @@
 package com.example.dam2_e2_t6_mpgm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +36,8 @@ public class BilerakInfoActivity extends AppCompatActivity {
     private TextView lbl_gelaBilera;
     private TextView lbl_Norekin;
 
+    private Button btnOnartu;
+    private Button btnEzeztatu;
     private Button btnAtzeraBilerakInfo;
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
@@ -57,6 +60,8 @@ public class BilerakInfoActivity extends AppCompatActivity {
         reunion = Parcels.unwrap(getIntent().getParcelableExtra("reunion"));
 
         // Bind views to their respective widgets
+        btnOnartu = findViewById(R.id.btnOnartu);
+        btnEzeztatu = findViewById(R.id.btnEzeztatu);
         btnAtzeraBilerakInfo = findViewById(R.id.btnAtzeraBilera);
         lbl_egoeraBilera = findViewById(R.id.lbl_egoeraBilera);
         lbl_izenburuaBilera = findViewById(R.id.lbl_izenburuaBilera);
@@ -66,29 +71,31 @@ public class BilerakInfoActivity extends AppCompatActivity {
         lbl_Norekin = findViewById(R.id.lbl_Norekin);
         mapaIkuspegia = findViewById(R.id.mapa);
 
+        if (reunion.getEstado().equals("pendiente") || reunion.getEstado().equals("conflicto")) {
+            btnOnartu.setVisibility(View.VISIBLE);
+            btnEzeztatu.setVisibility(View.VISIBLE);
+        } else {
+            btnOnartu.setVisibility(View.GONE);
+            btnEzeztatu.setVisibility(View.GONE);
+        }
+
         // Set the text for the views based on the reunion object
         lbl_egoeraBilera.setText(reunion.getEstado());
         lbl_izenburuaBilera.setText(reunion.getTitulo());
         lbl_gaiaBilera.setText(reunion.getAsunto());
         lbl_dataBilera.setText(reunion.getFecha().toString());
         lbl_gelaBilera.setText(reunion.getAula());
-        lbl_Norekin.setText(reunion.getUsersByProfesorId().getNombre() + " " + reunion.getUsersByProfesorId().getApellidos());
 
-        // Set OnClickListener for the "back" button
-        btnAtzeraBilerakInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("ButtonClick", "Finish called");
-                finish(); // This should finish the current activity
-            }
-        });
+        if (GlobalVariables.logedUser.getTipos().getId() == 3) {
+            lbl_Norekin.setText(reunion.getUsersByAlumnoId().getNombre() + " " + reunion.getUsersByAlumnoId().getApellidos());
+        } else {
+            lbl_Norekin.setText(reunion.getUsersByProfesorId().getNombre() + " " + reunion.getUsersByProfesorId().getApellidos());
+        }
 
         // Initialize the map and set the zoom and center
         Configuration.getInstance().setUserAgentValue(getPackageName());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         mapaIkuspegia.setMultiTouchControls(true);
-
         // Add markers for ikastetxeak
         GeoPoint g1;
         Marker txintxeta;
@@ -104,5 +111,41 @@ public class BilerakInfoActivity extends AppCompatActivity {
                 mapaIkuspegia.getOverlays().add(txintxeta);
             }
         }
+
+        // Set OnClickListener for the "back" button
+        btnAtzeraBilerakInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
+                finish();
+            }
+        });
+
+        btnOnartu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // llamar db, update y correo
+                Reuniones reunionUpdated = new Reuniones();
+
+                Intent intent = new Intent();
+                intent.putExtra("reunionUpdate", Parcels.wrap(reunionUpdated));
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+
+        btnEzeztatu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // llamar db, update y correo
+                Reuniones reunionUpdated = new Reuniones();
+
+                Intent intent = new Intent();
+                intent.putExtra("reunionUpdate", Parcels.wrap(reunionUpdated));
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 }

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import model.Horarios;
 import model.Ikastetxeak;
 import model.Reuniones;
+import model.Users;
 
 public class BilerakIkasleActivity extends AppCompatActivity {
     private Metodos metodos;
@@ -35,6 +36,7 @@ public class BilerakIkasleActivity extends AppCompatActivity {
     private ArrayList<Reuniones> reunionesIkasle;
     private ArrayList<Ikastetxeak> ikastetxeak;
     private ArrayList<Horarios> horariosIkasle;
+    private ArrayList<Users> irakasleak;
 
     private Reuniones[][] reunionesTable;
 
@@ -45,8 +47,15 @@ public class BilerakIkasleActivity extends AppCompatActivity {
     /*-----------------LAUNCHER FUNCTIONS------------------*/
     private final ActivityResultLauncher<Intent> finishCreation =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                Log.d("llegoalfinish", result.getResultCode() + "");
                 if (result.getResultCode() == RESULT_OK) {
-
+                    Intent data = result.getData();
+                    Reuniones newReunion = Parcels.unwrap(data.getParcelableExtra("reunion"));
+                    Log.d("pruebaReuniones","Reunion creada: " + newReunion.toString());
+                    reunionesIkasle.add(newReunion);
+                    String[][] schedule = metodos.generateArrayTableWReuniones(horariosIkasle, reunionesIkasle);
+                    reunionesTable = metodos.generateArrayReunionesTable(reunionesIkasle);
+                    fillTable(tableLayoutIkasleBilerak, schedule);
                 }
             });
 
@@ -72,6 +81,7 @@ public class BilerakIkasleActivity extends AppCompatActivity {
         /*-----------------GET PARCEL ELEMENTS------------------*/
         horariosIkasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIkasle"));
         reunionesIkasle = Parcels.unwrap(getIntent().getParcelableExtra("reunionesIkasle"));
+        irakasleak = Parcels.unwrap(getIntent().getParcelableExtra("irakasleak"));
 
         /*-----------------SET VIEW ELEMENTS------------------*/
         tableLayoutIkasleBilerak = findViewById(R.id.tableLayoutIkasleBilerak);
@@ -99,6 +109,7 @@ public class BilerakIkasleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BilerakIkasleActivity.this, CreateReunionActivity.class);
+                intent.putExtra("irakasleak", Parcels.wrap(irakasleak));
                 finishCreation.launch(intent);
             }
         });
@@ -111,7 +122,11 @@ public class BilerakIkasleActivity extends AppCompatActivity {
         });
     }
 
+    /*-----------------USEFULL METHODS------------------*/
+
     private void fillTable(TableLayout layout, String[][] schedule){
+        layout.removeAllViews();
+
         int i;
         int j;
 
@@ -125,6 +140,19 @@ public class BilerakIkasleActivity extends AppCompatActivity {
                 cellTextView.setPadding(16, 16, 16, 16);
                 cellTextView.setBackgroundColor(Color.parseColor("#F5F5F5"));
                 cellTextView.setTextColor(Color.BLACK);
+
+
+                if (reunionesTable[j][i] != null) {
+                    if (reunionesTable[j][i].getEstado().equals("pendiente")) {
+                        cellTextView.setBackgroundColor(Color.parseColor("#FFA500"));
+                    } else if (reunionesTable[j][i].getEstado().equals("aceptada")) {
+                        cellTextView.setBackgroundColor(Color.parseColor("#66C766"));
+                    } else if (reunionesTable[j][i].getEstado().equals("denegada")) {
+                        cellTextView.setBackgroundColor(Color.parseColor("#FF0000"));
+                    } else if (reunionesTable[j][i].getEstado().equals("conflicto")) {
+                        cellTextView.setBackgroundColor(Color.parseColor("#808080"));
+                    }
+                }
 
                 final int rowIndex = i;  // Capture row index
                 final int colIndex = j;

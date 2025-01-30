@@ -5,22 +5,22 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BilerakIrakasleActivity">
+    tools:context=".BilerakUserActivity">
 
     <Button
-        android:id="@+id/btnAtzeraIrakasle"
+        android:id="@+id/btnAtzeraBilerakUsers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="btnAtzera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.042" />
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollViewIrakasleBilerak"
+        android:id="@+id/horizontalScrollViewBilerakUsers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TableLayout
-            android:id="@+id/tableLayoutIrakasleBilerak"
+            android:id="@+id/tableLayoutBilerakUsers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#F5F5F5"
@@ -39,12 +39,14 @@
     </HorizontalScrollView>
 
     <Button
-        android:id="@+id/btnCreateReunionSortu"
+        android:id="@+id/btnCreateReunionBilerakUsers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="188dp"
-        android:layout_marginTop="4dp"
-        android:text="btnCreateReunionSortu"
+        android:text="btnCreateReunion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.935"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.042" />
 </androidx.constraintlayout.widget.ConstraintLayout>
