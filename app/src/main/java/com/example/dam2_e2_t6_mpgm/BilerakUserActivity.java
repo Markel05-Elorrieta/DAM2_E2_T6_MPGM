@@ -66,16 +66,19 @@ public class BilerakUserActivity extends AppCompatActivity {
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() != RESULT_CANCELED) {
 
-                    Reuniones reunionUpdated = Parcels.unwrap(result.getData().getParcelableExtra("reunionUpdate"));
+                    Reuniones reunionNewEstado = Parcels.unwrap(result.getData().getParcelableExtra("reunionNewEstado"));
                     for (Reuniones reunion : reuniones) {
-                        if (reunion.getIdReunion() == reunionUpdated.getIdReunion()) {
-                            reunion.setEstado(reunionUpdated.getEstado());
+                        if (reunion.getIdReunion() == reunionNewEstado.getIdReunion()) {
+                            reunion.setEstado(reunionNewEstado.getEstado());
                             break;
                         }
                     }
-                    String[][] schedule = metodos.generateArrayTableWReuniones(horarios, reuniones);
+
+                    tableLayoutBilerakUsers.removeAllViews();
+                    tableLayoutBilerakUsers.addView(metodos.createHeaderRow(this));
+                    scheduleView = metodos.generateArrayTableWReuniones(horarios, reuniones);
                     scheduleReuniones = metodos.generateArrayReunionesTable(reuniones);
-                    fillTable(tableLayoutBilerakUsers, schedule);
+                    fillTable(tableLayoutBilerakUsers, scheduleView);
 
                 }
             });
@@ -146,7 +149,7 @@ public class BilerakUserActivity extends AppCompatActivity {
         for (i = 0; i < schedule.length; i++) {
             TableRow tableRow = new TableRow(this);
             for (j = 0; j < schedule[i].length; j++) {
-                final String cellText = metodos.nameToCode(schedule[j][i] + ""); // Save cell text for use in listener
+                final String cellText = schedule[j][i]; // Save cell text for use in listener
                 TextView cellTextView = new TextView(this);
                 cellTextView.setText(cellText);
                 cellTextView.setGravity(Gravity.CENTER);
@@ -174,6 +177,8 @@ public class BilerakUserActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (scheduleReuniones[colIndex][rowIndex] != null) {
+                            x = colIndex;
+                            y = rowIndex;
                             Intent intent = new Intent(BilerakUserActivity.this, BilerakInfoActivity.class);
                             intent.putExtra("reunion", Parcels.wrap(scheduleReuniones[colIndex][rowIndex]));
                             finishDetails.launch(intent);

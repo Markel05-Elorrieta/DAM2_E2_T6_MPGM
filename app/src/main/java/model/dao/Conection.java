@@ -9,7 +9,7 @@ public class Conection {
 
     public Socket connect() {
         try {
-            socket = new Socket("10.5.104.43", 23456);
+            socket = new Socket("52.47.82.98", 23456);
             return socket;
         } catch (IOException e) {
             throw new RuntimeException(e);

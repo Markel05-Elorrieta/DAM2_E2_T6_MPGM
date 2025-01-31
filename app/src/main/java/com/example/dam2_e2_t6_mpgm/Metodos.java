@@ -94,6 +94,7 @@ public class Metodos {
     }
 
     public String[][] generateArrayTable(ArrayList<Horarios> horarios) {
+        Metodos metodos = new Metodos();
         String[][] schedule = new String[5][5];
 
         int x = -1;
@@ -136,7 +137,7 @@ public class Metodos {
                     break;
             }
 
-            schedule[x][y] = h.getModulos().getNombre();
+            schedule[x][y] = metodos.nameToCode(h.getModulos().getNombre());
         }
 
         return schedule;
@@ -144,6 +145,7 @@ public class Metodos {
 
     public String[][] generateArrayTableWReuniones(ArrayList<Horarios> horarios, ArrayList<Reuniones> reuniones) {
         String[][] schedule = new String[5][5];
+        Metodos metodos = new Metodos();
 
         int x = -1;
         int y = -1;
@@ -185,7 +187,7 @@ public class Metodos {
                     y = 4;
                     break;
             }
-            schedule[x][y] = h.getModulos().getNombre();
+            schedule[x][y] = metodos.nameToCode(h.getModulos().getNombre());
 
         }
 
@@ -262,7 +264,7 @@ public class Metodos {
                         break;
                 }
 
-                switch (r.getFecha().getHours() + 1) {
+                switch (r.getFecha().getHours()) {
 
                     case 8:
                         y = 0;
@@ -280,6 +282,8 @@ public class Metodos {
                         y = 4;
                         break;
                 }
+
+                Log.d("errorBileras", x + " " + y);
                 reunionesArray[x][y] = r;
             }
         }

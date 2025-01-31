@@ -22,8 +22,11 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.parceler.Parcels;
 
+import callbacks.AcceptBileraCallback;
+import callbacks.DeclineBileraCallback;
 import model.Ikastetxeak;
 import model.Reuniones;
+import model.dao.MReuniones;
 
 public class BilerakInfoActivity extends AppCompatActivity {
 
@@ -125,26 +128,33 @@ public class BilerakInfoActivity extends AppCompatActivity {
         btnOnartu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // llamar db, update y correo
-                Reuniones reunionUpdated = new Reuniones();
+                MReuniones mReuniones = new MReuniones("acceptBilera", reunion.getIdReunion(), new AcceptBileraCallback() {
+                    @Override
+                    public void onAcceptBilera() {
+                        Intent intent = new Intent();
+                        reunion.setEstado("aceptada");
+                        intent.putExtra("reunionNewEstado", Parcels.wrap(reunion));
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
 
-                Intent intent = new Intent();
-                intent.putExtra("reunionUpdate", Parcels.wrap(reunionUpdated));
-                setResult(RESULT_OK, intent);
-                finish();
             }
         });
 
         btnEzeztatu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // llamar db, update y correo
-                Reuniones reunionUpdated = new Reuniones();
-
-                Intent intent = new Intent();
-                intent.putExtra("reunionUpdate", Parcels.wrap(reunionUpdated));
-                setResult(RESULT_OK, intent);
-                finish();
+                MReuniones mReuniones = new MReuniones("declineBilera", reunion.getIdReunion(), new DeclineBileraCallback() {
+                    @Override
+                    public void onDeclineBilera() {
+                        Intent intent = new Intent();
+                        reunion.setEstado("denegada");
+                        intent.putExtra("reunionNewEstado", Parcels.wrap(reunion));
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
             }
         });
     }

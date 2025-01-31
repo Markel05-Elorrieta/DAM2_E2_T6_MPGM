@@ -8,10 +8,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import callbacks.AcceptBileraCallback;
 import callbacks.BilerakByStudentCallback;
 import callbacks.BilerakByTeacherCallback;
+import callbacks.DeclineBileraCallback;
 import callbacks.NewBileraCallback;
-import model.Matriculaciones;
 import model.Reuniones;
 
 public class MReuniones extends Thread{
@@ -23,12 +24,13 @@ public class MReuniones extends Thread{
     private int idStudent;
     private int idTeacher;
     private Reuniones reunion;
+    private int idReunion;
 
     private BilerakByStudentCallback bilerakByStudentCallback;
     private BilerakByTeacherCallback bilerakByTeacherCallback;
     private NewBileraCallback newBileraCallback;
-
-
+    private AcceptBileraCallback acceptBileraCallback;
+    private DeclineBileraCallback declireBileraCallback;
 
     public MReuniones(String key, int idTeacher, BilerakByTeacherCallback callback) {
         this.key = key;
@@ -51,6 +53,20 @@ public class MReuniones extends Thread{
         this.start();
     }
 
+    public MReuniones(String key, int idReunion, AcceptBileraCallback callback) {
+        this.key = key;
+        this.idReunion = idReunion;
+        this.acceptBileraCallback = callback;
+        this.start();
+    }
+
+    public MReuniones(String key, int idReunion, DeclineBileraCallback callback) {
+        this.key = key;
+        this.idReunion = idReunion;
+        this.declireBileraCallback = callback;
+        this.start();
+    }
+
     @Override
     public void run() {
         try {
@@ -67,6 +83,12 @@ public class MReuniones extends Thread{
                     break;
                 case "newBilera":
                     newBilera(reunion, newBileraCallback);
+                    break;
+                case "acceptBilera":
+                    acceptBilera(idReunion, acceptBileraCallback);
+                    break;
+                case "declineBilera":
+                    declineBilera(idReunion, declireBileraCallback);
                     break;
             }
 
@@ -124,5 +146,15 @@ public class MReuniones extends Thread{
         } catch (ClassNotFoundException e) {
             Log.d("gettedReunion", "error");
         }
+    }
+
+    private void acceptBilera(int idReunion, AcceptBileraCallback callback) {
+        pw.println("acceptBilera/" + idReunion);
+        callback.onAcceptBilera();
+    }
+
+    private void declineBilera(int idReunion, DeclineBileraCallback callback) {
+        pw.println("declineBilera/" + idReunion);
+        callback.onDeclineBilera();
     }
 }

@@ -198,7 +198,7 @@ public class IkasleActivity extends AppCompatActivity {
         for (int i = 0; i < schedule.length; i++) {
             TableRow tableRow = new TableRow(this);
             for (int j = 0; j < schedule[i].length; j++) {
-                final String cellText = metodos.nameToCode(schedule[j][i] + ""); // Save cell text for use in listener
+                final String cellText = schedule[j][i]; // Save cell text for use in listener
                 TextView cellTextView = new TextView(this);
                 cellTextView.setText(cellText);
                 cellTextView.setGravity(Gravity.CENTER);
