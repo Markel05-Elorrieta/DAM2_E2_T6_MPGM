@@ -1,10 +1,19 @@
 package com.example.dam2_e2_t6_mpgm;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -24,10 +33,8 @@ public class BilerakUserActivity extends AppCompatActivity {
     private Metodos metodos;
 
     private ArrayList<Ikastetxeak> ikastetxeak;
-    private ArrayList<Horarios> horariosIkasle;
-    private ArrayList<Reuniones> reunionesIkasle;
-    private ArrayList<Horarios> horariosIrakasle;
-    private ArrayList<Reuniones> reunionesIrakasle;
+    private ArrayList<Horarios> horarios;
+    private ArrayList<Reuniones> reuniones;
     private ArrayList<Users> usersList;
 
     private String[][] scheduleView;
@@ -40,6 +47,38 @@ public class BilerakUserActivity extends AppCompatActivity {
     private int x;
     private int y;
 
+    private final ActivityResultLauncher<Intent> finishCreation =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Intent data = result.getData();
+                    Reuniones newBilera = Parcels.unwrap(data.getParcelableExtra("newBilera"));
+                    reuniones.add(newBilera);
+
+                    tableLayoutBilerakUsers.removeAllViews();
+                    tableLayoutBilerakUsers.addView(metodos.createHeaderRow(this));
+                    scheduleView = metodos.generateArrayTableWReuniones(horarios, reuniones);
+                    scheduleReuniones = metodos.generateArrayReunionesTable(reuniones);
+                    fillTable(tableLayoutBilerakUsers, scheduleView);
+                }
+            });
+
+    private final ActivityResultLauncher<Intent> finishDetails =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() != RESULT_CANCELED) {
+
+                    Reuniones reunionUpdated = Parcels.unwrap(result.getData().getParcelableExtra("reunionUpdate"));
+                    for (Reuniones reunion : reuniones) {
+                        if (reunion.getIdReunion() == reunionUpdated.getIdReunion()) {
+                            reunion.setEstado(reunionUpdated.getEstado());
+                            break;
+                        }
+                    }
+                    String[][] schedule = metodos.generateArrayTableWReuniones(horarios, reuniones);
+                    scheduleReuniones = metodos.generateArrayReunionesTable(reuniones);
+                    fillTable(tableLayoutBilerakUsers, schedule);
+
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +97,13 @@ public class BilerakUserActivity extends AppCompatActivity {
         /*-----------------GET PARCEL ELEMENTS------------------*/
 
         if (GlobalVariables.logedUser.getTipos().getId() == 3) {
-            horariosIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIrakasle"));
-            reunionesIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("reunionesIrakasle"));
-        } else {
-            horariosIkasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIkasle"));
-            reunionesIkasle = Parcels.unwrap(getIntent().getParcelableExtra("reunionesIkasle"));
+            horarios = Parcels.unwrap(getIntent().getParcelableExtra("horariosIrakasle"));
+            reuniones = Parcels.unwrap(getIntent().getParcelableExtra("reunionesIrakasle"));
+        } else if (GlobalVariables.logedUser.getTipos().getId() == 4){
+            horarios = Parcels.unwrap(getIntent().getParcelableExtra("horariosIkasle"));
+            reuniones = Parcels.unwrap(getIntent().getParcelableExtra("reunionesIkasle"));
         }
-
         usersList = Parcels.unwrap(getIntent().getParcelableExtra("usersList"));
-
 
         /*-----------------SET VIEW ELEMENTS------------------*/
         tableLayoutBilerakUsers = findViewById(R.id.tableLayoutBilerakUsers);
@@ -74,13 +111,83 @@ public class BilerakUserActivity extends AppCompatActivity {
         btnCreateReunionBilerakUsers = findViewById(R.id.btnCreateReunionBilerakUsers);
 
         /*-----------------FILL VIEW ELEMENTS------------------*/
-        tableLayoutBilerakUsers.addView(metodos.createHeaderRow(this));
 
-        if (GlobalVariables.logedUser.getTipos().getId() == 3) {
-            scheduleView = metodos.generateArrayTableWReuniones(horariosIkasle, reunionesIkasle);
+        tableLayoutBilerakUsers.removeAllViews();
+        tableLayoutBilerakUsers.addView(metodos.createHeaderRow(this));
+        scheduleView = metodos.generateArrayTableWReuniones(horarios, reuniones);
+        scheduleReuniones = metodos.generateArrayReunionesTable(reuniones);
+        fillTable(tableLayoutBilerakUsers, scheduleView);
+
+        /*-----------------LISTENERS------------------*/
+
+        btnCreateReunionBilerakUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BilerakUserActivity.this, CreateReunionActivity.class);
+                intent.putExtra("usersList", Parcels.wrap(usersList));
+                intent.putExtra("horarios", Parcels.wrap(horarios));
+                finishCreation.launch(intent);
+            }
+        });
+
+        btnAtzeraBilerakUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+    }
+
+    private void fillTable(TableLayout layout, String[][] schedule){
+        int i;
+        int j;
+
+        for (i = 0; i < schedule.length; i++) {
+            TableRow tableRow = new TableRow(this);
+            for (j = 0; j < schedule[i].length; j++) {
+                final String cellText = metodos.nameToCode(schedule[j][i] + ""); // Save cell text for use in listener
+                TextView cellTextView = new TextView(this);
+                cellTextView.setText(cellText);
+                cellTextView.setGravity(Gravity.CENTER);
+                cellTextView.setPadding(16, 16, 16, 16);
+                cellTextView.setBackgroundColor(Color.parseColor("#F5F5F5"));
+                cellTextView.setTextColor(Color.BLACK);
+
+
+                if (scheduleReuniones[j][i] != null) {
+                    if (scheduleReuniones[j][i].getEstado().equals("pendiente")) {
+                        cellTextView.setBackgroundColor(Color.parseColor("#FFA500"));
+                    } else if (scheduleReuniones[j][i].getEstado().equals("aceptada")) {
+                        cellTextView.setBackgroundColor(Color.parseColor("#66C766"));
+                    } else if (scheduleReuniones[j][i].getEstado().equals("denegada")) {
+                        cellTextView.setBackgroundColor(Color.parseColor("#FF0000"));
+                    } else if (scheduleReuniones[j][i].getEstado().equals("conflicto")) {
+                        cellTextView.setBackgroundColor(Color.parseColor("#808080"));
+                    }
+                }
+
+                final int rowIndex = i;  // Capture row index
+                final int colIndex = j;
+                // Set a click listener for each cell
+                cellTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (scheduleReuniones[colIndex][rowIndex] != null) {
+                            Intent intent = new Intent(BilerakUserActivity.this, BilerakInfoActivity.class);
+                            intent.putExtra("reunion", Parcels.wrap(scheduleReuniones[colIndex][rowIndex]));
+                            finishDetails.launch(intent);
+                        }
+                    }
+                });
+
+                tableRow.addView(cellTextView);
+            }
+            layout.addView(tableRow);
         }
-/*
-        reunionesTable = metodos.generateArrayReunionesTable(reunionesIkasle);
-        fillTable(tableLayoutIkasleBilerak, schedule);*/
+
+        i = 0;
+        j = 0;
+
     }
 }

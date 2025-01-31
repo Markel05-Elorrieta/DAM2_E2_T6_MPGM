@@ -51,7 +51,6 @@ public class IrakasleActivity extends AppCompatActivity {
     private Button btnLogout;
     private Button btnProfileIrakasle;
     private Button btnBilerakIkusiIrakasle;
-    private Button btnCreateReunionSortu;
 
     private final ActivityResultLauncher<Intent> returnProfile =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -81,7 +80,6 @@ public class IrakasleActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.rv_ikasleList);
         et_filterZiklo = findViewById(R.id.et_filterZikloa);
         et_filterIkasturte = findViewById(R.id.et_filterIkasturtea);
-        btnCreateReunionSortu = findViewById(R.id.btnCreateReunionSortu);
         btnLogout = findViewById(R.id.btnLogoutIrakasle);
         btnProfileIrakasle = findViewById(R.id.btnProfileIrakasle);
         btnBilerakIkusiIrakasle = findViewById(R.id.btnBilerakIkusiIrakasle);
@@ -137,11 +135,11 @@ public class IrakasleActivity extends AppCompatActivity {
                         MIkastxeak mIkastxeak = new MIkastxeak("getIkastetxeak", new GetIkastetxeakCallback() {
                             @Override
                             public void onGetIkastetxeakCallback(ArrayList<Ikastetxeak> ikastetxeak) {
-                                Intent intent = new Intent(IrakasleActivity.this, BilerakIrakasleActivity.class);
-                                intent.putExtra("horariosIrakasle", Parcels.wrap(horariosIrakasle));
+                                Intent intent = new Intent(IrakasleActivity.this, BilerakUserActivity.class);
                                 GlobalVariables.ikastetxeak = ikastetxeak;
+                                intent.putExtra("horariosIrakasle", Parcels.wrap(horariosIrakasle));
                                 intent.putExtra("reunionesIrakasle", Parcels.wrap(reuniones));
-                                intent.putExtra("ikasleak", Parcels.wrap(ikasleList));
+                                intent.putExtra("usersList", Parcels.wrap(ikasleList));
                                 returnFromBilerak.launch(intent);
                             }
                         });
@@ -178,7 +176,7 @@ public class IrakasleActivity extends AppCompatActivity {
         for (int i = 0; i < schedule.length; i++) {
             TableRow tableRow = new TableRow(this);
             for (int j = 0; j < schedule[i].length; j++) {
-                final String cellText = schedule[j][i]; // Save cell text for use in listener
+                final String cellText = metodos.nameToCode(schedule[j][i] + ""); // Save cell text for use in listener
                 TextView cellTextView = new TextView(this);
                 cellTextView.setText(cellText);
                 cellTextView.setGravity(Gravity.CENTER);

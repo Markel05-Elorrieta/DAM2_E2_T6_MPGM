@@ -301,7 +301,7 @@ public class Metodos {
         return (timestampWeek == currentWeek) && (timestampYear == currentYear);
     }
 
-    private int charToInt(char c) {
+    public int charToInt(char c) {
         return c - '1';
     }
 
@@ -341,7 +341,7 @@ public class Metodos {
 
     public TableRow createHeaderRow(Context context) {
         TableRow headerRow = new TableRow(context);
-        String[] headersName = {"Astelehena", "Asteartea", "Asteazkena", "Osteguna", "Ostirala"};
+        String[] headersName = {"L/A", "M/A", "X", "J/O", "V/O"};
         for (String header : headersName) {
             TextView headerTextView = new TextView(context);
             headerTextView.setText(header);
@@ -368,5 +368,38 @@ public class Metodos {
             userNames[i] = users.get(i).getNombre() + " " + users.get(i).getApellidos();
         }
         return userNames;
+    }
+
+    public String nameToCode(String name) {
+        switch (name) {
+            case "Tutoria":
+                return "T";
+            case "Guardia":
+                return "G";
+            case "Sistemas Informaticos":
+                return "SI";
+            case "Bases de datos":
+                return "BD";
+            case "Programación":
+                return "PR";
+            case "Lenguajes de marcas":
+                return "LM";
+            case "Entornos de desarrollo":
+                return "ED";
+            case "Acceso a datos":
+                return "AD";
+            case "Desarrollo de interfaces":
+                return "DI";
+            case "Programación multimedia y dispositivos móviles":
+                return "PMDM";
+            case "Programación de servicios y procesos":
+                return "PSP";
+            case "Sistemas de gestión empresarial":
+                return "SGE";
+            case "Empresa e Iniciativa Emprendedora":
+                return "EIE";
+            default:
+                return "N/A";
+        }
     }
 }

@@ -174,12 +174,11 @@ public class IkasleActivity extends AppCompatActivity {
                         MIkastxeak mIkastxeak = new MIkastxeak("getIkastetxeak", new GetIkastetxeakCallback() {
                             @Override
                             public void onGetIkastetxeakCallback(ArrayList<Ikastetxeak> ikastetxeak) {
-                                Log.d("ikastetxeak", ikastetxeak.toString());
-                                Intent intent = new Intent(IkasleActivity.this, BilerakIkasleActivity.class);
-                                intent.putExtra("horariosIkasle", Parcels.wrap(horarioIkasle));
+                                Intent intent = new Intent(IkasleActivity.this, BilerakUserActivity.class);
                                 GlobalVariables.ikastetxeak = ikastetxeak;
+                                intent.putExtra("horariosIkasle", Parcels.wrap(horarioIkasle));
                                 intent.putExtra("reunionesIkasle", Parcels.wrap(reuniones));
-                                intent.putExtra("irakasleak", Parcels.wrap(irakasleak));
+                                intent.putExtra("usersList", Parcels.wrap(irakasleak));
                                 returnFromBilerak.launch(intent);
                             }
                         });
@@ -199,7 +198,7 @@ public class IkasleActivity extends AppCompatActivity {
         for (int i = 0; i < schedule.length; i++) {
             TableRow tableRow = new TableRow(this);
             for (int j = 0; j < schedule[i].length; j++) {
-                final String cellText = schedule[j][i]; // Save cell text for use in listener
+                final String cellText = metodos.nameToCode(schedule[j][i] + ""); // Save cell text for use in listener
                 TextView cellTextView = new TextView(this);
                 cellTextView.setText(cellText);
                 cellTextView.setGravity(Gravity.CENTER);
