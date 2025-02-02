@@ -41,6 +41,7 @@ import model.dao.MReuniones;
 import model.dao.MUsers;
 
 public class IrakasleActivity extends AppCompatActivity {
+    private Metodos metodos;
 
     private ArrayList<Horarios> horariosIrakasle;
     private ArrayList<Users> ikasleList;
@@ -72,10 +73,12 @@ public class IrakasleActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        metodos = new Metodos();
 
         horariosIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIrakasle"));
         ikasleList = Parcels.unwrap(getIntent().getParcelableExtra("ikasleList"));
 
+        Log.d("scheduleTeacher", horariosIrakasle.toString());
         TableLayout tableLayout = findViewById(R.id.tableLayoutIrakasle);
         RecyclerView recyclerView = findViewById(R.id.rv_ikasleList);
         et_filterZiklo = findViewById(R.id.et_filterZikloa);
@@ -152,53 +155,25 @@ public class IrakasleActivity extends AppCompatActivity {
             }
         });
 
+        tableLayout.addView(metodos.createHeaderRow(this));
+        String[][] scheduleIrakasle = metodos.generateArrayTable(horariosIrakasle);
+        fillTable(tableLayout, scheduleIrakasle);
+    }
 
-        /*--------------------------------------------*/
-
-        // Add the header row
-        TableRow headerRow = new TableRow(this);
-        String[] headers = {"Astelehena", "Asteartea", "Asteazkena", "Osteguna", "Ostirala"};
-        for (String header : headers) {
-            TextView headerTextView = new TextView(this);
-            headerTextView.setText(header);
-            headerTextView.setGravity(Gravity.CENTER);
-            headerTextView.setTextColor(Color.WHITE);
-            headerTextView.setPadding(16, 16, 16, 16);
-            headerRow.addView(headerTextView);
-        }
-        headerRow.setBackgroundColor(Color.parseColor("#007DC3")); // Blue header background
-        tableLayout.addView(headerRow);
-
-        Metodos metodos = new Metodos();
-        String[][] schedule = metodos.generateArrayTable(horariosIrakasle);
-
-        // Add rows dynamically
+    private void fillTable(TableLayout layout, String[][] schedule){
         for (int i = 0; i < schedule.length; i++) {
             TableRow tableRow = new TableRow(this);
             for (int j = 0; j < schedule[i].length; j++) {
-                final String cellText = metodos.nameToCode(schedule[j][i] + ""); // Save cell text for use in listener
+                final String cellText = schedule[j][i]; // Save cell text for use in listener
                 TextView cellTextView = new TextView(this);
                 cellTextView.setText(cellText);
                 cellTextView.setGravity(Gravity.CENTER);
                 cellTextView.setPadding(16, 16, 16, 16);
                 cellTextView.setBackgroundColor(Color.parseColor("#F5F5F5"));
                 cellTextView.setTextColor(Color.BLACK);
-
-                // Set a click listener for each cell
-                cellTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!cellText.isEmpty()) {
-                            Toast.makeText(IrakasleActivity.this, "Clicked: " + cellText, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(IrakasleActivity.this, "Empty cell clicked", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
                 tableRow.addView(cellTextView);
             }
-            tableLayout.addView(tableRow);
+            layout.addView(tableRow);
         }
     }
 

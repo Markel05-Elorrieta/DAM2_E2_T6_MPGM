@@ -56,7 +56,6 @@ public class MHorarios extends Thread{
 
             ois = new ObjectInputStream(socket.getInputStream());
             ArrayList<Horarios> horarios = (ArrayList<Horarios>) ois.readObject();
-
             callback.onScheduleTeacher(horarios);
         } catch (IOException e) {
             Log.d("loginProba", "error");
