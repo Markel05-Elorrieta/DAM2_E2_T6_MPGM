@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         MUsers usersDao = new MUsers("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {
             @Override
             public void onLoginAndroid(boolean isLogin) {
-
+                Log.d("loginBien", isLogin + "");
                 if (isLogin) {
                     if (GlobalVariables.logedUser.getTipos().getId() == 3) {
 

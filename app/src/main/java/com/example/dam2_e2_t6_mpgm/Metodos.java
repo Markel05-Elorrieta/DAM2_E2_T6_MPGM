@@ -264,7 +264,7 @@ public class Metodos {
                         break;
                 }
 
-                switch (r.getFecha().getHours()) {
+                switch (r.getFecha().getHours()+1) {
 
                     case 8:
                         y = 0;
@@ -282,7 +282,6 @@ public class Metodos {
                         y = 4;
                         break;
                 }
-
                 Log.d("errorBileras", x + " " + y);
                 reunionesArray[x][y] = r;
             }
