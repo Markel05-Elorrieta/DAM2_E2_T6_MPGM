@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DAM2_E2_T6_MPGM</string>
-    <string name="user">Usuario</string>
+    <string name="app_name">JEM APP</string>
+    <string name="email">Correo Electrónico</string>
     <string name="password">Contraseña</string>
-    <string name="pasahitzaAhaztuta">¿Olvidaste la contraseña?</string>
-    <string name="login">Iniciar sesión</string>
+    <string name="login">Iniciar Sesión</string>
     <string-array name="languages">
-        <item>Vasco</item>
+        <item>Euskera</item>
         <item>Inglés</item>
         <item>Español</item>
     </string-array>
+
+    <string name="forgotPassword">¿Olvidaste tu contraseña?</string>
+    <string name="clickHere">¡Haz clic aquí!</string>
+    <string name="apply">Aplicar</string>
+    <string name="titleResetPwd">Introduce el correo electrónico para restablecer la contraseña</string>
+    <string name="reset">Restablecer</string>
+    <string name="titleResetPwdSuccess">Se ha enviado un correo con tu nueva contraseña</string>
+    <string name="titleResetPwdError">Error al enviar el correo, no hay una cuenta con ese correo</string>
+    <string name="errorEmailEmpty">Error al enviar el correo, no has insertado el correo electrónico</string>
+
+
+
+    <string name="profile">Perfil</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="updateSchedule">Actualizar horario</string>
+    <string name="schedule">Horario</string>
+    <string name="scheduleTeachers">Horario de profesores</string>
+    <string name="goToMeetings">Ir a reuniones</string>
+
+    <string name="ikasleak">Alumnos</string>
+    <string name="filterZikloa">Filtrar por ciclo</string>
+    <string name="filterSchoolYear">Filtrar por año escolar</string>
+
+    <string name="goBack">Volver</string>
+    <string name="changeImg">Cambiar imagen</string>
+    <string name="saveImg">Guardar imagen</string>
+
+    <string name="createMeeting">Crear reunión</string>
+    <string name="acceptMeeting">Aceptar</string>
+    <string name="declireMeeting">Rechazar</string>
+
+    <string name="title">Título</string>
+    <string name="subject">Asunto</string>
+    <string name="dateformat">aaaa/mm/dd</string>
+    <string name="hourformat">hh:mm</string>
+    <string name="room">Sala</string>
+    <string name="create">Crear</string>
+
+    <string name="dni">DNI</string>
+    <string name="name">Nombre</string>
+    <string name="surnames">Apellidos</string>
+    <string name="phone">Teléfono</string>
+    <string name="phone2">Teléfono 2</string>
+    <string name="address">Dirección</string>
+    <string name="zikloa">Ciclo</string>
+    <string name="schoolYear">Año escolar</string>
 </resources>

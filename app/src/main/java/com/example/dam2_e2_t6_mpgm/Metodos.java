@@ -44,7 +44,7 @@ public class Metodos {
     public void pedirCorreo(Context context) {
         // Crear el AlertDialog Builder
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Titulus");
+        builder.setTitle(context.getString(R.string.titleResetPwd)); // Título del AlertDialog
 
         // Crear un LinearLayout para contener los EditText
         LinearLayout layout = new LinearLayout(context);
@@ -53,14 +53,14 @@ public class Metodos {
 
         // Crear el primer EditText
         final EditText email = new EditText(context);
-        email.setHint("mete correus"); // Hint para el primer campo de texto
+        email.setHint(context.getString(R.string.email)); // Hint para el primer campo de texto
         layout.addView(email); // Agregar el primer EditText al layout
 
         // Configurar el layout en el AlertDialog
         builder.setView(layout);
 
         // Configurar los botones
-        builder.setPositiveButton("Un button", null); // Usar null para evitar el cierre automático
+        builder.setPositiveButton(context.getString(R.string.reset), null); // Usar null para evitar el cierre automático
 
         // Crear el AlertDialog
         AlertDialog dialog = builder.create();
@@ -69,20 +69,26 @@ public class Metodos {
         dialog.setOnShowListener(dialogInterface -> {
             Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             button.setOnClickListener(v -> {
+
+                // Comprobar si el campo de texto está vacío
+                if (email.getText().toString().isEmpty()) {
+                    Toast.makeText(context, context.getString(R.string.errorEmailEmpty), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 MUsers usersDao = new MUsers("changePwd", email.getText().toString(), new ChangePwdCallback() {
                     @Override
                     public void onChangePwd(boolean result) {
-                        Log.d("loginProba", result + "");
                         if (result) {
                             Handler mainHandler = new Handler(Looper.getMainLooper());
                             mainHandler.post(() -> {
-                                Toast.makeText(context, "Contraseña modificada, revisa el correo!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.titleResetPwdSuccess), Toast.LENGTH_SHORT).show();
                             });
                             dialog.dismiss();
                         } else {
                             Handler mainHandler = new Handler(Looper.getMainLooper());
                             mainHandler.post(() -> {
-                                Toast.makeText(context, "Error al modificar la contraseña", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.titleResetPwdError), Toast.LENGTH_SHORT).show();
                             });
                         }
                     }
@@ -192,7 +198,6 @@ public class Metodos {
         }
 
         for (Reuniones r : reuniones) {
-            Log.d("reunionesRecogidasDeServer", r.getFecha().toString());
             if(isInCurrentWeek(r.getFecha())) {
                 switch (r.getFecha().getDay()){
                     case 1:
@@ -211,7 +216,7 @@ public class Metodos {
                         x = 4;
                         break;
                 }
-                switch (r.getFecha().getHours()+1){
+                switch (r.getFecha().getHours()){
 
                     case 8:
                         y = 0;
@@ -264,7 +269,7 @@ public class Metodos {
                         break;
                 }
 
-                switch (r.getFecha().getHours()+1) {
+                switch (r.getFecha().getHours()) {
 
                     case 8:
                         y = 0;
@@ -318,19 +323,19 @@ public class Metodos {
         return names;
     }
 
-    public ArrayList<String> generateInfoProfile(Users user, Matriculaciones matriculaciones) {
+    public ArrayList<String> generateInfoProfile(Context context, Users user, Matriculaciones matriculaciones) {
         ArrayList<String> info = new ArrayList<>();
-            info.add("DNI: " + user.getDni());
-            info.add("Nombre: " + user.getNombre());
-            info.add("Apellidos: " + user.getApellidos());
-            info.add("Correo: " + user.getEmail());
-            info.add("Direccion: " + user.getDireccion());
-            info.add("Telefono: " + user.getTelefono1());
-            info.add("Telefono 2: " + user.getTelefono2());
+            info.add(context.getString(R.string.dni) + ": " + user.getDni());
+            info.add(context.getString(R.string.name) + ": " + user.getNombre());
+            info.add(context.getString(R.string.surnames) + ": " + user.getApellidos());
+            info.add(context.getString(R.string.email) + ": " + user.getEmail());
+            info.add(context.getString(R.string.address) + ": " + user.getDireccion());
+            info.add(context.getString(R.string.phone) + ": " + user.getTelefono1());
+            info.add(context.getString(R.string.phone2) + ": " + user.getTelefono2());
 
             if (user.getTipos().getId() == 4) {
-                info.add("Ziklo: " + matriculaciones.getCiclos().getNombre());
-                info.add("Ikasturte: " + matriculaciones.getId().getCurso());
+                info.add(context.getString(R.string.zikloa) + ": " + matriculaciones.getCiclos().getNombre());
+                info.add(context.getString(R.string.schoolYear) + ": " + matriculaciones.getId().getCurso());
             }
         return info;
     }

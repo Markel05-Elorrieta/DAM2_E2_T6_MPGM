@@ -8,10 +8,10 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/lbl_user"
+        android:id="@+id/lbl_email"
         android:layout_width="250dp"
         android:layout_height="23dp"
-        android:text="@string/user"
+        android:text="@string/email"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.409"
@@ -111,7 +111,7 @@
         android:id="@+id/btn_changeLanguage"
         android:layout_width="114dp"
         android:layout_height="38dp"
-        android:text="Change"
+        android:text="@string/apply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.157"

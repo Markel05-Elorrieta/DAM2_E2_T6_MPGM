@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         /*-----------------SET VIEW ELEMENTS------------------*/
 
         img_logo = (ImageView) findViewById(R.id.gifLogo);
-        lbl_user = (TextView) findViewById(R.id.lbl_user);
+        lbl_user = (TextView) findViewById(R.id.lbl_email);
         lbl_password = (TextView) findViewById(R.id.lbl_password);
         txt_user = (EditText) findViewById(R.id.txt_user);
         txt_password = (EditText) findViewById(R.id.txt_password);
@@ -141,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Metodos m = new Metodos();
                 m.pedirCorreo(MainActivity.this);
-                Toast.makeText(MainActivity.this, "pide correus", Toast.LENGTH_SHORT).show();
-            }
+               }
         });
 
         // Login
@@ -190,6 +189,10 @@ public class MainActivity extends AppCompatActivity {
     /*-----------------USEFULL METHODS------------------*/
 
     private void doLogin(){
+        if (txt_user.getText().toString().isEmpty() || txt_password.getText().toString().isEmpty()) {
+            Toast.makeText(MainActivity.this, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
         MUsers usersDao = new MUsers("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {
             @Override
             public void onLoginAndroid(boolean isLogin) {
@@ -264,13 +267,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void recreateView(){
-        lbl_user.setText(R.string.user);
+        lbl_user.setText(R.string.email);
         lbl_password.setText(R.string.password);
-        txt_user.setHint(R.string.user);
+        txt_user.setHint(R.string.email);
         txt_password.setHint(R.string.password);
         lbl_forgotPassword.setText(R.string.forgotPassword);
         lbl_clickHere.setText(R.string.clickHere);
         btn_login.setText(R.string.login);
+        btn_changeLanguage.setText(R.string.apply);
 
         String[] opciones = getResources().getStringArray(R.array.languages);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);

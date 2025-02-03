@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DAM2_E2_T6_MPGM</string>
-    <string name="user">User</string>
+    <string name="app_name">JEM APP</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Log In</string>
     <string-array name="languages">
@@ -10,7 +10,49 @@
         <item>Spanish</item>
     </string-array>
 
-    <string name="forgotPassword" translatable="false">Forgot password?</string>
-    <string name="clickHere" translatable="false">Click Here!</string>
-    <string name="restartAplication" translatable="false">Restart the aplication to apply language changes!</string>
+    <string name="forgotPassword">Forgot password?</string>
+    <string name="clickHere" >Click Here!</string>
+    <string name="apply">Apply</string>
+    <string name="titleResetPwd">Insert the email to reset the password</string>
+    <string name="reset">Reset</string>
+    <string name="titleResetPwdSuccess">An email has been sent with your new password</string>
+    <string name="titleResetPwdError">Error sending the email, there is not account with that email</string>
+    <string name="errorEmailEmpty">Error sending the email, you havent insert the email</string>
+
+    <string name="profile">Profile</string>
+    <string name="logout">Log out</string>
+    <string name="updateSchedule">Update Schedule</string>
+    <string name="schedule">Schedule</string>
+    <string name="scheduleTeachers">Schedule Teachers</string>
+    <string name="goToMeetings">Go to Meetings</string>
+
+    <string name="ikasleak">Ikasleak</string>
+    <string name="filterZikloa">Filter by Zikloa</string>
+    <string name="filterSchoolYear">Filter by School Year</string>
+
+    <string name="goBack">Go Back</string>
+    <string name="changeImg">Change Image</string>
+    <string name="saveImg">Save Image</string>
+
+    <string name="createMeeting">Create Meeting</string>
+    <string name="acceptMeeting">Accept</string>
+    <string name="declireMeeting">Declire</string>
+
+    <string name="title">Title</string>
+    <string name="subject">Subject</string>
+    <string name="dateformat">yyyy/mm/dd</string>
+    <string name="hourformat">hh:mm</string>
+    <string name="room">Room</string>
+    <string name="create">Create</string>
+
+    <string name="dni">DNI</string>
+    <string name="name">Name</string>
+    <string name="surnames">Surname</string>
+    <string name="phone">Phone</string>
+    <string name="phone2">Phone2</string>
+    <string name="address">Address</string>
+    <string name="zikloa">Zikloa</string>
+    <string name="schoolYear">School Year</string>
+
+
 </resources>

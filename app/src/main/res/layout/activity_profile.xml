@@ -13,32 +13,31 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Button"
+        android:text="@string/goBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_infoProfile"
-        android:layout_width="411dp"
-        android:layout_height="364dp"
+        android:layout_width="409dp"
+        android:layout_height="439dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.226" />
+        app:layout_constraintVertical_bias="0.263" />
 
     <Button
         android:id="@+id/btnChangeImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="changeImg"
+        android:text="@string/changeImg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintHorizontal_bias="0.103"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
+        app:layout_constraintVertical_bias="0.834" />
 
     <ImageView
         android:id="@+id/imgProfile"
@@ -48,10 +47,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="1.0"
-        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintHorizontal_bias="0.873"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.904"
+        app:layout_constraintVertical_bias="0.954"
         app:layout_constraintWidth_percent="1.0"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -59,11 +58,11 @@
         android:id="@+id/btnGorde"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gorde"
+        android:text="@string/saveImg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.193"
+        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.881" />
+        app:layout_constraintVertical_bias="0.945" />
 </androidx.constraintlayout.widget.ConstraintLayout>

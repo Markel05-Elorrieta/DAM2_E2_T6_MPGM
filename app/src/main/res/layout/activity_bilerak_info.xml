@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
-        android:text="btnAtzera"
+        android:text="@string/goBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,10 +84,10 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.195"
+        app:layout_constraintHorizontal_bias="0.167"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53" />
+        app:layout_constraintVertical_bias="0.533" />
 
     <org.osmdroid.views.MapView
         android:id="@+id/mapa"
@@ -104,9 +104,9 @@
         android:id="@+id/btnOnartu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
+        android:layout_marginStart="180dp"
         android:layout_marginTop="144dp"
-        android:text="bai"
+        android:text="@string/acceptMeeting"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,7 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="288dp"
         android:layout_marginTop="144dp"
-        android:text="ez"
+        android:text="@string/declireMeeting"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

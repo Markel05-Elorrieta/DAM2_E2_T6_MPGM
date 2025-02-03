@@ -80,13 +80,11 @@ public class ProfileActivity extends AppCompatActivity {
         img = findViewById(R.id.imgProfile);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        infoList = metodos.generateInfoProfile(GlobalVariables.logedUser, GlobalVariables.matriculacion);
+        infoList = metodos.generateInfoProfile(this, GlobalVariables.logedUser, GlobalVariables.matriculacion);
         adapter = new ProfileInfoAdapter(infoList, this);
         recyclerView.setAdapter(adapter);
 
         if (GlobalVariables.logedUser.getArgazkia() != null){
-            Log.d("argazkia", "onCreate: " + Arrays.toString(GlobalVariables.logedUser.getArgazkia()));
-
             try {
                 img.setImageURI(byteArrayToUri(GlobalVariables.logedUser.getArgazkia(), this));
             } catch (IOException e) {
@@ -123,8 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 GlobalVariables.logedUser.setArgazkia(metodos.imageViewToByte(img));
-                Log.d("base64P", "onClick: " + base);
-                MUsers userDao = new MUsers("updateUser", GlobalVariables.logedUser.getId(),base , new UpdateUserCallback() {
+               MUsers userDao = new MUsers("updateUser", GlobalVariables.logedUser.getId(),base , new UpdateUserCallback() {
                     @Override
                     public void onUpdateUser(boolean isChanged) {
                         if (isChanged) {

@@ -1,13 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DAM2_E2_T6_MPGM</string>
-    <string name="user">Erabiltzailea</string>
+    <string name="app_name">JEM APP</string>
+    <string name="email">Posta Elektronikoa</string>
     <string name="password">Pasahitza</string>
-    <string name="pasahitzaAhaztuta">Pasahitza ahaztu al duzu?</string>
-    <string name="login">Saioa hasi</string>
+    <string name="login">Saioa Hasi</string>
     <string-array name="languages">
         <item>Euskara</item>
-        <item>Ingelera</item>
-        <item>Gaztelania</item>
+        <item>Ingelesa</item>
+        <item>Espainiera</item>
     </string-array>
+
+    <string name="forgotPassword">Pasahitza ahaztu duzu?</string>
+    <string name="clickHere">Klik egin hemen!</string>
+    <string name="apply">Aplikatu</string>
+    <string name="titleResetPwd">Pasahitza berrezartzeko posta elektronikoa sartu</string>
+    <string name="reset">Berrezarri</string>
+    <string name="titleResetPwdSuccess">Pasahitz berriarekin posta bat bidali da</string>
+    <string name="titleResetPwdError">Errorea mezu elektronikoa bidaltzean, ez dago konturik helbide horrekin</string>
+    <string name="errorEmailEmpty">Errorea mezu elektronikoa bidaltzean, ez duzu posta elektronikoa sartu</string>
+
+
+    <string name="profile">Profila</string>
+    <string name="logout">Saioa Itxi</string>
+    <string name="updateSchedule">Ordutegia Eguneratu</string>
+    <string name="schedule">Ordutegia</string>
+    <string name="scheduleTeachers">Irakasleen Ordutegia</string>
+    <string name="goToMeetings">Bileretara Joan</string>
+
+    <string name="ikasleak">Ikasleak</string>
+    <string name="filterZikloa">Zikloaren arabera iragazi</string>
+    <string name="filterSchoolYear">Ikasturtearen arabera iragazi</string>
+
+    <string name="goBack">Atzera</string>
+    <string name="changeImg">Irudia Aldatu</string>
+    <string name="saveImg">Irudia Gorde</string>
+
+    <string name="createMeeting">Bilera Sortu</string>
+    <string name="acceptMeeting">Onartu</string>
+    <string name="declireMeeting">Ezetsi</string>
+
+    <string name="title">Izenburua</string>
+    <string name="subject">Gaia</string>
+    <string name="dateformat">uuuu/hh/ee</string>
+    <string name="hourformat">hh:mm</string>
+    <string name="room">Gela</string>
+    <string name="create">Sortu</string>
+
+    <string name="dni">NAN</string>
+    <string name="name">Izena</string>
+    <string name="surnames">Abizenak</string>
+    <string name="phone">Telefonoa</string>
+    <string name="phone2">Telefonoa 2</string>
+    <string name="address">Helbidea</string>
+    <string name="zikloa">Zikloa</string>
+    <string name="schoolYear">Ikasturtea</string>
 </resources>

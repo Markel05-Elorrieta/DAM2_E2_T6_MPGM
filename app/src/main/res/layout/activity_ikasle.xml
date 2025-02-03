@@ -7,125 +7,141 @@
     android:layout_height="match_parent"
     tools:context=".IkasleActivity">
 
-    <TextView
-        android:id="@+id/lbl_scheduleIkasleIrakasle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Schedule"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119" />
+    <!-- Logout Button at the Top -->
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollViewIkasle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_scheduleIkasleIrakasle">
-
-        <TableLayout
-            android:id="@+id/tableLayoutIkasle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#F5F5F5"
-            android:stretchColumns="*"></TableLayout>
-
-    </HorizontalScrollView>
-
-    <TextView
-        android:id="@+id/lbl_scheduleIkasle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Schedule Irakasle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.053"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewIkasle"
-        app:layout_constraintVertical_bias="0.084" />
-
-    <Spinner
-        android:id="@+id/s_irakasle"
-        android:layout_width="230dp"
-        android:layout_height="35dp"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_scheduleIkasle"
-        app:layout_constraintVertical_bias="0.024" />
-
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollViewIkasleIrakasle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/s_irakasle">
-
-        <TableLayout
-            android:id="@+id/tableLayoutIkasleIrakasle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#F5F5F5"
-            android:stretchColumns="*"></TableLayout>
-
-    </HorizontalScrollView>
-
-    <Button
-        android:id="@+id/btn_filtratuHorario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.861"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_scheduleIkasle"
-        app:layout_constraintVertical_bias="0.029" />
+    <!-- Schedule Title -->
 
     <Button
         android:id="@+id/btnLogoutIkasle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="logout"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lbl_scheduleIkasleIrakasle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/schedule"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogoutIkasle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:gravity="center"/>
+
+    <!-- Horizontal Scroll View for Table 1 -->
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollViewIkasle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_scheduleIkasleIrakasle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TableLayout
+            android:id="@+id/tableLayoutIkasle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:stretchColumns="*"
+            android:padding="8dp"/>
+    </HorizontalScrollView>
+
+    <!-- Schedule Title 2 -->
+    <TextView
+        android:id="@+id/lbl_scheduleIkasle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scheduleTeachers"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewIkasle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:layout_marginTop="24dp"/>
+
+    <!-- Spinner for Teacher Selection -->
+    <Spinner
+        android:id="@+id/s_irakasle"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_filtratuHorario"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_scheduleIkasle"
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <!-- Button for Updating Schedule -->
+
+    <!-- Horizontal Scroll View for Table 2 -->
+
+    <Button
+        android:id="@+id/btn_filtratuHorario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:padding="12dp"
+        android:text="@string/updateSchedule"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/s_irakasle"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_scheduleIkasle" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollViewIkasleIrakasle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/s_irakasle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TableLayout
+            android:id="@+id/tableLayoutIkasleIrakasle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:stretchColumns="*"
+            android:padding="8dp"/>
+    </HorizontalScrollView>
+
+    <!-- Profile Button -->
+
+    <!-- Go to Meetings Button at the Bottom -->
 
     <Button
         android:id="@+id/btnProfileIkasle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.392"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnBilerakIkusiIkasle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="btnBilerakIkusi"
+        android:text="@string/goToMeetings"
+        android:layout_marginBottom="30dp"
+        android:textColor="#FFFFFF"
+        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.768"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
