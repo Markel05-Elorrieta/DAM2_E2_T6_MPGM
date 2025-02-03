@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -54,11 +55,15 @@ public class BilerakUserActivity extends AppCompatActivity {
                     Reuniones newBilera = Parcels.unwrap(data.getParcelableExtra("newBilera"));
                     reuniones.add(newBilera);
 
+                    Toast.makeText(BilerakUserActivity.this, getString(R.string.meetingCreationSuccesfully), Toast.LENGTH_SHORT).show();
+
                     tableLayoutBilerakUsers.removeAllViews();
                     tableLayoutBilerakUsers.addView(metodos.createHeaderRow(this));
                     scheduleView = metodos.generateArrayTableWReuniones(horarios, reuniones);
                     scheduleReuniones = metodos.generateArrayReunionesTable(reuniones);
                     fillTable(tableLayoutBilerakUsers, scheduleView);
+                } else {
+                    Toast.makeText(BilerakUserActivity.this, getString(R.string.meetingCreationCanceled), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -73,6 +78,9 @@ public class BilerakUserActivity extends AppCompatActivity {
                             break;
                         }
                     }
+
+                    Toast.makeText(BilerakUserActivity.this, getString(R.string.meetingUpdatedSuccesfully), Toast.LENGTH_SHORT).show();
+
 
                     tableLayoutBilerakUsers.removeAllViews();
                     tableLayoutBilerakUsers.addView(metodos.createHeaderRow(this));

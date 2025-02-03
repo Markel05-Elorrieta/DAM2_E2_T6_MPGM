@@ -126,11 +126,11 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onUpdateUser(boolean isChanged) {
                         if (isChanged) {
                             runOnUiThread(() -> {
-                                Toast.makeText(ProfileActivity.this, "Updated succesfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfileActivity.this, getString(R.string.updatePhotoSuccesfully), Toast.LENGTH_SHORT).show();
                             });
                             } else {
                             runOnUiThread(() -> {
-                                Toast.makeText(ProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfileActivity.this, getString(R.string.updatePhotoError), Toast.LENGTH_SHORT).show();
                             });
                         }
 

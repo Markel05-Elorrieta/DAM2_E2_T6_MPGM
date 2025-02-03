@@ -56,4 +56,13 @@
     <string name="address">Helbidea</string>
     <string name="zikloa">Zikloa</string>
     <string name="schoolYear">Ikasturtea</string>
+
+    <string name="missingFieldsError">Eremu batzuk falta dira!</string>
+    <string name="upError">Erabiltzailea edo pasahitza okerrak dira, saiatu berriro!</string>
+    <string name="updatePhotoSuccesfully">Argazkia behar bezala eguneratu da</string>
+    <string name="updatePhotoError">Errorea argazkia eguneratzean</string>
+    <string name="meetingCreationSuccesfully">Bilera behar bezala sortu da</string>
+    <string name="meetingCreationCanceled">Bileraren sorrera bertan behera utzi da</string>
+    <string name="meetingUpdatedSuccesfully">Bilera behar bezala eguneratu da</string>
+
 </resources>

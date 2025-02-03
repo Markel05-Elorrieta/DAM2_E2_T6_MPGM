@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -136,10 +137,14 @@ public class CreateReunionActivity extends AppCompatActivity {
                 Timestamp fecha = stringToTimestamp(fechaString);
                 String gela = txt_gelaReunion.getText().toString();
 
+                if (izenburua.isEmpty() || gaia.isEmpty() || day.isEmpty() || hour.isEmpty() || gela.isEmpty()) {
+                    Toast.makeText(CreateReunionActivity.this, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
 
                 if (GlobalVariables.logedUser.getTipos().getId() == 3) {
                     if(haveConflict(parseDay(fecha), parseHour(hour), horariosUser)) {
-                        Log.d("CreateReunionActivity", "conflictus");
                         estado = "conflicto";
                     }
                     newReunion = new Reuniones(GlobalVariables.logedUser, usersList.get(sPosIrakasle), estado, null, GlobalVariables.ikastetxeak.get(sPosIkastetxe).getCCEN() + "", izenburua, gaia, gela, fecha);
@@ -150,7 +155,6 @@ public class CreateReunionActivity extends AppCompatActivity {
                         @Override
                         public void onScheduleTeacher(ArrayList<Horarios> horarios) {
                             if (haveConflict(parseDay(fecha), parseHour(hour), horarios)) {
-                                Log.d("CreateReunionActivity", "conflictus");
                                 estado = "conflicto";
                             }
                             newReunion = new Reuniones(usersList.get(sPosIrakasle), GlobalVariables.logedUser, estado, null, GlobalVariables.ikastetxeak.get(sPosIkastetxe).getCCEN() + "", izenburua, gaia, gela, fecha);

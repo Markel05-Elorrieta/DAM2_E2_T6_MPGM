@@ -143,13 +143,11 @@
         }
 
         public void loginAndroid(String email, String password, LoginAndroidCallback callback) {
-            Log.d("mUsers loginAndroid", "llego metodo");
             try {
                 pw.println("loginAndroid/" + email);
 
                 ois = new ObjectInputStream(socket.getInputStream());
                 Users user = (Users) ois.readObject();
-                Log.d("mUsers loginAndroid", "usuario recogido: " + user.toString());
 
                 if (user != null && mBCrypt.checkPassword(password, user.getPassword())) {
                     Log.d("mUsers loginAndroid", "login correcto");
@@ -170,7 +168,6 @@
                     }
 
                 } else {
-                    Log.d("mUsers loginAndroid", "login incorrecto");
                     callback.onLoginAndroid(false);
                 }
             } catch (IOException e) {

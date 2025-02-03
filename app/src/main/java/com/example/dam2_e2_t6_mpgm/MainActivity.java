@@ -190,13 +190,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void doLogin(){
         if (txt_user.getText().toString().isEmpty() || txt_password.getText().toString().isEmpty()) {
-            Toast.makeText(MainActivity.this, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.missingFieldsError), Toast.LENGTH_SHORT).show();
             return;
         }
         MUsers usersDao = new MUsers("loginAndroid", txt_user.getText().toString(), txt_password.getText().toString(), new LoginAndroidCallback() {
             @Override
             public void onLoginAndroid(boolean isLogin) {
-                Log.d("loginBien", isLogin + "");
                 if (isLogin) {
                     if (GlobalVariables.logedUser.getTipos().getId() == 3) {
 
@@ -219,13 +218,11 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        Log.d("login", "Ikasle");
                         Intent intent = new Intent(MainActivity.this, IkasleActivity.class);
 
                         MUsers usersDao = new MUsers("scheduleStudent", GlobalVariables.logedUser.getId(), new ScheduleStudentCallback() {
                             @Override
                             public void onScheduleStudent(ArrayList<Horarios> horario) {
-                                Log.d("horarioIkasle", horario + "");
                                 intent.putExtra("horariosIkasle", Parcels.wrap(horario));
 
                                 MUsers usersDao1 = new MUsers("getTeachers", new GetTeachersCallback() {
@@ -250,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.upError), Toast.LENGTH_SHORT).show();
                     });
                 }
             }

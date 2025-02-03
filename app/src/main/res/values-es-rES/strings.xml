@@ -57,4 +57,13 @@
     <string name="address">Dirección</string>
     <string name="zikloa">Ciclo</string>
     <string name="schoolYear">Año escolar</string>
+
+    <string name="missingFieldsError">¡Faltan campos!</string>
+    <string name="upError">Usuario o contraseña incorrectos, ¡inténtalo de nuevo!</string>
+    <string name="updatePhotoSuccesfully">La foto se ha actualizado correctamente</string>
+    <string name="updatePhotoError">Error al actualizar la foto</string>
+    <string name="meetingCreationSuccesfully">La reunión se ha creado correctamente</string>
+    <string name="meetingCreationCanceled">Creación de reunión cancelada</string>
+    <string name="meetingUpdatedSuccesfully">La reunión se ha actualizado correctamente</string>
+
 </resources>

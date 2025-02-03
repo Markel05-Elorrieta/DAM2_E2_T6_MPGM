@@ -78,7 +78,6 @@ public class IrakasleActivity extends AppCompatActivity {
         horariosIrakasle = Parcels.unwrap(getIntent().getParcelableExtra("horariosIrakasle"));
         ikasleList = Parcels.unwrap(getIntent().getParcelableExtra("ikasleList"));
 
-        Log.d("scheduleTeacher", horariosIrakasle.toString());
         TableLayout tableLayout = findViewById(R.id.tableLayoutIrakasle);
         RecyclerView recyclerView = findViewById(R.id.rv_ikasleList);
         et_filterZiklo = findViewById(R.id.et_filterZikloa);

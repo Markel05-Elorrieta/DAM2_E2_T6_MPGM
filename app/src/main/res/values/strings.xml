@@ -56,5 +56,14 @@
     <string name="zikloa">Zikloa</string>
     <string name="schoolYear">School Year</string>
 
+    <string name="missingFieldsError">There are missing fields!</string>
+    <string name="upError">User or password are incorrect, try again!</string>
+    <string name="updatePhotoSuccesfully">The photo have been updated succesfully</string>
+    <string name="updatePhotoError">Error updating the photo</string>
+    <string name="meetingCreationSuccesfully">Meeting have been created succesfully</string>
+    <string name="meetingCreationCanceled">Meeting creation canceled</string>
+    <string name="meetingUpdatedSuccesfully">Meeting updated succesfully</string>
+
+
 
 </resources>
