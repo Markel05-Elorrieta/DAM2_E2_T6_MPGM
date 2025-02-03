@@ -39,6 +39,7 @@
     <string name="createMeeting">Crear reunión</string>
     <string name="acceptMeeting">Aceptar</string>
     <string name="declireMeeting">Rechazar</string>
+    <string name="meetingInfo">Información de la reunión</string>
 
     <string name="title">Título</string>
     <string name="subject">Asunto</string>
@@ -46,6 +47,7 @@
     <string name="hourformat">hh:mm</string>
     <string name="room">Sala</string>
     <string name="create">Crear</string>
+    <string name="with">Reunión con</string>
 
     <string name="dni">DNI</string>
     <string name="name">Nombre</string>

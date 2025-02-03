@@ -100,6 +100,7 @@
         android:layout_height="21dp"
         android:text="@string/clickHere"
         android:textAlignment="textEnd"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.775"

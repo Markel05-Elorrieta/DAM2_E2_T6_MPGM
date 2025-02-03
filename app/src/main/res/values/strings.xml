@@ -36,7 +36,8 @@
 
     <string name="createMeeting">Create Meeting</string>
     <string name="acceptMeeting">Accept</string>
-    <string name="declireMeeting">Declire</string>
+    <string name="declireMeeting">Decline</string>
+    <string name="meetingInfo">Meeting Information</string>
 
     <string name="title">Title</string>
     <string name="subject">Subject</string>
@@ -44,6 +45,7 @@
     <string name="hourformat">hh:mm</string>
     <string name="room">Room</string>
     <string name="create">Create</string>
+    <string name="with">Meeting with</string>
 
     <string name="dni">DNI</string>
     <string name="name">Name</string>

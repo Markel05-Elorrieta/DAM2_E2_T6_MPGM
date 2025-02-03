@@ -71,38 +71,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_filterZikloa" />
 
-    <EditText
-        android:id="@+id/et_filterZikloa"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/filterZikloa"
-        android:inputType="text"
-        android:padding="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/et_filterIkasturtea"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_ikasleak"
-        app:layout_constraintHorizontal_bias="0.0"
-        android:background="@android:color/white"
-        android:textColor="#333333"/>
-
     <!-- Filter by School Year -->
-    <EditText
-        android:id="@+id/et_filterIkasturtea"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="64dp"
-        android:ems="10"
-        android:hint="@string/filterSchoolYear"
-        android:inputType="text"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lbl_ikasleak"
-        app:layout_constraintHorizontal_bias="1.0"
-        android:background="@android:color/white"
-        android:textColor="#333333"/>
 
     <!-- Logout Button (Placed at the top) -->
 
@@ -110,12 +79,43 @@
 
     <!-- Go to Meetings Button (Placed at the bottom) -->
 
+    <EditText
+        android:id="@+id/et_filterZikloa"
+        android:layout_width="196dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/white"
+        android:ems="10"
+        android:hint="@string/filterZikloa"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textColor="#333333"
+        app:layout_constraintEnd_toStartOf="@+id/et_filterIkasturtea"
+        app:layout_constraintHorizontal_bias="0.112"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_ikasleak" />
+
+    <EditText
+        android:id="@+id/et_filterIkasturtea"
+        android:layout_width="194dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:background="@android:color/white"
+        android:ems="10"
+        android:hint="@string/filterSchoolYear"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textColor="#333333"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_ikasleak" />
+
     <Button
         android:id="@+id/btnLogoutIrakasle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:padding="12dp"
         android:text="@string/logout"
         android:textColor="#FFFFFF"

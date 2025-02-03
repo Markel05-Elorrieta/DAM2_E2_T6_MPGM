@@ -38,6 +38,7 @@
     <string name="createMeeting">Bilera Sortu</string>
     <string name="acceptMeeting">Onartu</string>
     <string name="declireMeeting">Ezetsi</string>
+    <string name="meetingInfo">Bileraren Informazioa</string>
 
     <string name="title">Izenburua</string>
     <string name="subject">Gaia</string>
@@ -45,6 +46,7 @@
     <string name="hourformat">hh:mm</string>
     <string name="room">Gela</string>
     <string name="create">Sortu</string>
+    <string name="with">Norekin</string>
 
     <string name="dni">NAN</string>
     <string name="name">Izena</string>
